@@ -101,6 +101,212 @@ body {
 }
 
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+   margin: 0;
+   padding: 0;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 100vh;
+   background-color: #f0f0f0;         
+}
+
+        .app-container {
+            width: 375px;
+            height: 667px;
+            background-color: #afb59d;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            overflow-y: auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4a5442;
+            margin-bottom: 30px;
+            font-size: 24px;
+            margin-top: 0;
+        }
+
+        .profile-section {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            color: #4a5442;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .searchbar {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .searchInput {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 16px;
+            background: #f8f9f7;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .searchInput:focus {
+            outline: none;
+            border-color: #7a8471;
+            background: white;
+        }
+
+        .language-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .language-option {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            background: #f8f9f7;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .language-option:hover {
+            border-color: #7a8471;
+            background: white;
+        }
+
+        
+        .custom-select {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .select-dropdown {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 16px;
+            background: #f8f9f7;
+            appearance: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .select-dropdown:focus {
+            outline: none;
+            border-color: #7a8471;
+            background: white;
+        }
+
+        .update-button {
+            width: 100%;
+            padding: 15px;
+            background: #7a8471;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .update-button:hover {
+            background: #6a7461;
+            transform: translateY(-2px);
+        }
+
+        
+
+        .hobby-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .hobby-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            background: #f8f9f7;
+            border-radius: 15px;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .hobby-item:hover {
+            background: white;
+            border-color: #7a8471;
+        }
+
+        .hobby-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #7a8471;
+            border-radius: 4px;
+            background: white;
+            cursor: pointer;
+            position: relative;
+            appearance: none;
+        }
+
+        .hobby-item input[type="checkbox"]:checked {
+            background: #7a8471;
+            border-color: #7a8471;
+        }
+
+        .hobby-item input[type="checkbox"]:checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .hobby-item label {
+            font-size: 16px;
+            color: #4a5442;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .hobby-item input[type="checkbox"]:checked + label {
+            color: #7a8471;
+            font-weight: 600;
+        }
 .profile-avatar {
   width: 100px;
   height: 100px;
