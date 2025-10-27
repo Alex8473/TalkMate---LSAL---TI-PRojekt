@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+    <div class="app-container">
+        <h1>Chat</h1>
+        <div id="chat-box" class="chat-box"></div>
+        <div class="chat-input">
+            <input type="text" id="chat-message" placeholder="Type a message..." />
+            <button id="send-message">Send</button>
+        </div>
+        <div class="icon-bar">
+            <div class="icon">
+                <a href="profile.html"><img src="images/icon3.png" alt="Home Icon" /></a>
+            </div>
+            <div class="icon">
+                <a href="index.html"><img src="images/icon4.png" alt="Swipe Icon" /></a>
+            </div>
+            <div class="icon">
+                <a href="chat.html"><img src="images/icon2.png" alt="Chat Icon" /></a>
+            </div>
+            <div class="icon">
+                <a href="settings.html"><img src="images/icon1.png" alt="Settings Icon" /></a>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="js/supabaseClient.js"></script>
+    <script type="module" src="js/chat.js"></script>
+</body>
+</html>

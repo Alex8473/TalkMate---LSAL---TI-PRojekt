@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app-container">
+    <h1 id="form-title">Login</h1>
+
+    <!-- Login-Formular -->
+    <form id="login-form">
+      <div class="searchbar">
+        <input type="text" class="searchInput" id="login-username" placeholder="Username" required />
+      </div>
+      <div class="searchbar">
+        <input type="password" class="searchInput" id="login-password" placeholder="Password" required />
+      </div>
+      <button type="submit">Login</button>
+    </form>
+
+    <button class="register-button" id="show-register-btn" type="button">Create Account</button>
+
+    <!-- Registrierungs-Formular -->
+    <form class="register-form" id="register-form" style="display:none;">
+      <div class="searchbar">
+        <input type="text" class="searchInput" id="new-username" placeholder="New Username" required />
+      </div>
+      <div class="searchbar">
+        <input type="password" class="searchInput" id="new-password" placeholder="New Password" required />
+      </div>
+      <div class="searchbar" style="flex-direction:column;align-items:flex-start;">
+        <label><input type="checkbox" name="hobby" value="Sports"> Sports</label>
+        <label><input type="checkbox" name="hobby" value="Music"> Music</label>
+        <label><input type="checkbox" name="hobby" value="Art"> Art</label>
+        <label><input type="checkbox" name="hobby" value="Gaming"> Gaming</label>
+        <label><input type="checkbox" name="hobby" value="Travel"> Travel</label>
+      </div>
+      <button type="submit">Register</button>
+      <button type="button" id="back-to-login-btn">Back to Login</button>
+    </form>
+  </div>
+
+  <!-- JavaScript einbinden -->
+  <script type="module" src="js/supabaseClient.js"></script>
+  <script type="module" src="js/login.js"></script>
+</body>
+</html>
