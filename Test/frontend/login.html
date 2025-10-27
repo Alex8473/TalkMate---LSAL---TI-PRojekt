@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-R" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Login</title>
   <link rel="stylesheet" href="css/style.css" />
@@ -10,7 +10,7 @@
   <div class="app-container">
     <h1 id="form-title">Login</h1>
 
-    <!-- Login-Formular -->
+    <!-- Registrierungs-Formular -->
     <form id="login-form">
       <div class="searchbar">
         <input type="text" class="searchInput" id="login-username" placeholder="Username" required />
@@ -18,33 +18,107 @@
       <div class="searchbar">
         <input type="password" class="searchInput" id="login-password" placeholder="Password" required />
       </div>
-      <button type="submit">Login</button>
+      <button type="submit" class="update-button">Login</button>
     </form>
 
     <button class="register-button" id="show-register-btn" type="button">Create Account</button>
 
-    <!-- Registrierungs-Formular -->
     <form class="register-form" id="register-form" style="display:none;">
       <div class="searchbar">
-        <input type="text" class="searchInput" id="new-username" placeholder="New Username" required />
+        <input type="text" class="searchInput" id="Benutzername" placeholder="Benutzername" required />
       </div>
       <div class="searchbar">
-        <input type="password" class="searchInput" id="new-password" placeholder="New Password" required />
+        <input type="password" class="searchInput" id="Passwort" placeholder="Passwort" required />
       </div>
-      <div class="searchbar" style="flex-direction:column;align-items:flex-start;">
-        <label><input type="checkbox" name="hobby" value="Sports"> Sports</label>
-        <label><input type="checkbox" name="hobby" value="Music"> Music</label>
-        <label><input type="checkbox" name="hobby" value="Art"> Art</label>
-        <label><input type="checkbox" name="hobby" value="Gaming"> Gaming</label>
-        <label><input type="checkbox" name="hobby" value="Travel"> Travel</label>
+
+      <div class="profile-section">
+            <div class="section-title">Muttersprache</div>
+                <div class="language-selector">
+                    <div class="language-option selected">Deutsch</div>
+                    <div class="language-option">Englisch</div>
+                    <div class="language-option">Französisch</div>
+                </div>
       </div>
-      <button type="submit">Register</button>
-      <button type="button" id="back-to-login-btn">Back to Login</button>
+
+       <div class="profile-section">
+                <div class="section-title">Welche Sprache willst du lernen?</div>
+                <div class="language-selector">
+                    <div class="language-option selected">Deutsch</div>
+                    <div class="language-option">Englisch</div>
+                    <div class="language-option">Französisch</div>
+                </div>
+                
+        </div>
+
+
+      <div class="hobby-section">
+        <div class="section-title">Interessen & Hobbys</div>
+         <div class="hobby-grid">
+                    <div class="hobby-item">
+                        <input type="checkbox" id="travel" name="hobbies" value="travel" checked>
+                        <label for="travel">Reisen</label>
+                    </div>
+                    <div class="hobby-item">
+                        <input type="checkbox" id="music" name="hobbies" value="music">
+                        <label for="music">Musik</label>
+                    </div>
+                    <div class="hobby-item">
+                        <input type="checkbox" id="sports" name="hobbies" value="sports">
+                        <label for="sports">Sport</label>
+                    </div>
+                    <div class="hobby-item">
+                        <input type="checkbox" id="cooking" name="hobbies" value="cooking" checked>
+                        <label for="cooking">Kochen</label>
+                    </div>
+                    <div class="hobby-item">
+                        <input type="checkbox" id="reading" name="hobbies" value="reading">
+                        <label for="reading">Lesen</label>
+                    </div>
+                    <div class="hobby-item">
+                        <input type="checkbox" id="movies" name="hobbies" value="movies">
+                        <label for="movies">Filme</label>
+                    </div>
+                    <div class="hobby-item">
+                        <input type="checkbox" id="gaming" name="hobbies" value="gaming">
+                        <label for="gaming">Gaming</label>
+                    </div>
+                    <div class="hobby-item">
+                        <input type="checkbox" id="art" name="hobbies" value="art">
+                        <label for="art">Kunst</label>
+                    </div>
+                </div>
+            </div>
+        
+      
+      <button type="submit" class="update-button">Register</button>
+      <button type="button" id="back-to-login-btn" class="register-button">Back to Login</button>
     </form>
+
+    <div class="icon-bar">
+      <div class="icon">
+        <a href="profile.html">
+          <img src="images/icon3.png" alt="Home Icon" />
+        </a>
+      </div>
+      <div class="icon">
+        <a href="index.html">
+          <img src="images/icon4.png" alt="Chat Icon" />
+        </a>
+      </div>
+      <div class="icon">
+        <a href="chat.html">
+          <img src="images/icon2.png" alt="Profile Icon" />
+        </a>
+      </div>
+      <div class="icon">
+        <a href="settings.html">
+          <img src="images/icon1.png" alt="Settings Icon" />
+        </a>
+      </div>
+    </div>
+    
   </div>
 
-  <!-- JavaScript einbinden -->
-  <script type="module" src="js/supabaseClient.js"></script>
-  <script type="module" src="js/login.js"></script>
+  <script src="js/log.js"></script>
 </body>
 </html>
