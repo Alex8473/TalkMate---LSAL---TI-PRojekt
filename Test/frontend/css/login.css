@@ -1,0 +1,25 @@
+/* login.css */
+
+/* Stile für die Umschalt-Buttons (Register/Back to Login) */
+.register-button {
+  width: 100%;
+  padding: 15px;
+  background: transparent;
+  color: #4a5442;
+  border: 2px solid #7a8471;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 15px;
+  text-align: center;
+}
+
+.register-button:hover {
+  background: #f8f9f7;
+}
+
+#register-form {
+  margin-top: 20px;
+}
