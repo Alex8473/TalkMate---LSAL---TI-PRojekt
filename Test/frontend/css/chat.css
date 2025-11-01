@@ -1,0 +1,68 @@
+/* chat.css */
+
+/* Überschreibe das globale App-Layout für die Chat-Ansicht */
+.app-container {
+  padding: 0; /* Entferne globales Padding */
+  overflow-y: hidden; /* Verhindere Scrollen des Hauptcontainers */
+  display: flex;
+  flex-direction: column; /* Stapele Inhalte (H1, ChatBox, Input, Nav) */
+}
+
+h1 {
+  padding: 20px; /* Eigenes Padding für H1 */
+  margin-bottom: 0;
+  flex-shrink: 0; /* Verhindere, dass H1 schrumpft */
+}
+
+.chat-box {
+  flex-grow: 1; /* Füllt den gesamten verfügbaren Platz */
+  overflow-y: auto; /* Nur die Chat-Box soll scrollen */
+  background-color: #f8f9f7;
+  padding: 15px;
+  border-top: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.chat-input {
+  display: flex;
+  padding: 15px 20px;
+  background-color: #afb59d;
+  flex-shrink: 0; /* Verhindere Schrumpfen */
+}
+
+#chat-message {
+  flex-grow: 1;
+  padding: 12px 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 25px;
+  font-size: 16px;
+  background: #f8f9f7;
+  margin-right: 10px;
+  outline: none;
+}
+
+#chat-message:focus {
+  border-color: #7a8471;
+}
+
+#send-message {
+  padding: 12px 20px;
+  background: #7a8471;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#send-message:hover {
+  background: #6a7461;
+}
+
+/* Überschreibe die Icon-Bar, damit sie nicht absolut positioniert ist */
+.icon-bar {
+  position: relative; /* Nicht mehr 'absolute' */
+  flex-shrink: 0; /* Verhindere Schrumpfen */
+}
