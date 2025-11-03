@@ -1,0 +1,58 @@
+.settings-button {
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  color: #4a5442;
+  border: 2px solid #7a8471;
+  border-radius: 20px;
+  font-size: 15px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 8px;
+  text-align: center;
+}
+
+.settings-button:hover {
+  background: #f8f9f7;
+}
+
+.settings-toggle-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: #f8f9f7;
+  border-radius: 12px;
+  border: 2px solid #e0e0e0;
+  margin-bottom: 8px;
+}
+
+.settings-toggle-item span {
+  font-size: 14px;
+  color: #4a5442;
+  font-weight: 300;
+}
+
+.toggle-switch {
+  position: relative;
+}
+
+/* Roter Button für Abmelden */
+.danger-button {
+  background-color: #9d4e4e; 
+  margin-top: 20px; 
+}
+
+.danger-button:hover {
+  background-color: #834040;
+}
+
+.delete-button {
+  background-color: #9d4e4e; 
+  margin-top: 20px; 
+}
+
+.delete-button:hover {
+ background-color: #834040;
+}
