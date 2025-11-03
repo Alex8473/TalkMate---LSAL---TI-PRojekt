@@ -149,3 +149,7 @@
 .swipe-message.show {
   opacity: 1;
 }
+
+.app-container {
+  padding-top: 75px;
+}
