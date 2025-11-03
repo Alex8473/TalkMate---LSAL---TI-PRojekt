@@ -4,6 +4,7 @@ import { supabase } from './supabaseClient.js'
 const loginForm = document.getElementById('login-form')
 const registerForm = document.getElementById('register-form')
 const showRegisterBtn = document.getElementById('show-register-btn')
+const formTitle = document.getElementById('form-title');
 const backToLoginBtn = document.getElementById('back-to-login-btn')
 
 // Zeige Registrierungsformular
