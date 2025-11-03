@@ -22,134 +22,111 @@
   background-color: #d4d0b9;
   border-radius: 5px;
   flex: 1;
-  border: none; /* Überschreibt global */
+  border: none; 
   outline: none;
   font-size: 16px;
-  padding: 8px 0; /* Überschreibt global */
+  padding: 8px 0; 
 }
 
 .searchInput:focus {
   background-color: #d4d0b9;
-  border-color: transparent; /* Überschreibt global */
+  border-color: transparent; 
 }
 
-/* --- Profil-Swipe-Karte --- */
+
 .profile-Swipe {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  background-color: #d4d0b9;
-  width: 100%; /* Volle Breite */
-  height: auto;
-  min-height: 310px;
-  padding: 20px 10px;
-  margin: 0 auto 20px auto;
+  position: relative; 
+  display: flex; 
+  flex-direction: column; 
+  justify-content: flex-end; 
+  align-items: flex-start; 
+  background-color: #d4d0b9; 
+  min-height: 385px; 
+  padding: 20px; 
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  text-align: center;
-  transition: background-color 0.3s;
+  overflow: hidden; /
 }
 
-/* Stile für Inhalte IN der Swipe-Karte (aus deinem CSS-Block) */
-.profile-avatar {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-bottom: 8px;
-  border: 2px solid #afb59d;
+
+.profile-Swipe-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; 
+  z-index: 1; 
 }
 
-.profile-card h2 {
-  margin: 10px 0;
-  color: #4a5442;
+
+.profile-info-overlay {
+  position: relative; 
+  z-index: 2; 
+  color: white; 
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6); 
+  align-self: flex-start; 
+  margin-top: auto; 
 }
 
-.profile-card p {
-  font-size: 14px;
-  color: #333;
+.profile-name-age {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.profile-description {
+  font-size: 16px;
   margin-bottom: 15px;
 }
 
-.profile-hobbies {
+.profile-hobbies-list {
   display: flex;
-  justify-content: center;
+  flex-wrap: wrap; 
   gap: 8px;
-  margin: 16px 0;
-  flex-wrap: wrap;
-  padding: 0 10px;
 }
 
-.profile-hobby {
-  padding: 6px 12px;
+.profile-hobby-tag {
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 5px 10px;
   border-radius: 15px;
-  background: #afb59d;
-  color: #f8f9f7;
-  font-weight: 500;
   font-size: 14px;
-}
-
-/* --- Swipe-Aktions-Buttons --- */
-.profile-actions {
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-  margin: 16px 0;
-}
-
-.profile-actions button {
-  padding: 15px 30px;
-  border-radius: 25px;
-  border: none;
-  font-size: 16px;
-  font-weight: 600;
-  color: #fff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  transition: background 0.2s, transform 0.1s;
-}
-
-#accept-btn {
-  background: #6fcf97;
-}
-
-#reject-btn {
-  background: #eb5757;
-}
-
-.profile-actions button:active {
-  transform: scale(0.95);
-}
-
-/* Visuelle Swipe-Effekte */
-.profile-Swipe.swipe-right {
-  background-color: #b6e7b0 !important;
-}
-.profile-Swipe.swipe-left {
-  background-color: #f7b6b6 !important;
-}
-
-.swipe-message {
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 2rem;
-  font-weight: bold;
-  color: #fff;
-  background: rgba(0, 0, 0, 0.5);
-  padding: 16px 32px;
-  border-radius: 12px;
-  opacity: 0;
-  pointer-events: none;
-  z-index: 10;
-  transition: opacity 0.2s;
-}
-.swipe-message.show {
-  opacity: 1;
 }
 
 .app-container {
   padding-top: 75px;
+}
+
+.profile-actions {
+  display: flex;
+  justify-content: center; 
+  gap: 40px;               
+  margin-top: 10px;
+}
+
+
+.profile-actions button {
+  padding: 12px 15px;     
+  border-radius: 25px;    
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;           
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+
+#reject-btn {
+  background: #eb5757; 
+}
+
+
+#accept-btn {
+  background: #6fcf97; 
+}
+
+
+.profile-actions button:active {
+  transform: scale(0.95);
 }
