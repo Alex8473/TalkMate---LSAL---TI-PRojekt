@@ -1,11 +1,33 @@
-// js/profile.js
 import { supabase } from './supabaseClient.js'
 
 const profileForm = document.getElementById('profile-form')
-const nameInput = document.getElementById('profile-name')
-const usernameInput = document.getElementById('profile-username')
-const ageInput = document.getElementById('profile-age')
-const languageInput = document.getElementById('profile-language')
+const fullnameInput = document.getElementById('fullname')
+const usernameInput = document.getElementById('username')
+
+// Sprachwahl
+let nativeLanguage = 'Deutsch'
+let learningLanguage = 'Englisch'
+
+// Klickbare Sprachoptionen
+document.querySelectorAll('#native-language .language-option').forEach(opt => {
+  opt.addEventListener('click', () => {
+    document.querySelectorAll('#native-language .language-option').forEach(o => o.classList.remove('selected'))
+    opt.classList.add('selected')
+    nativeLanguage = opt.textContent
+  })
+})
+document.querySelectorAll('#learning-language .language-option').forEach(opt => {
+  opt.addEventListener('click', () => {
+    document.querySelectorAll('#learning-language .language-option').forEach(o => o.classList.remove('selected'))
+    opt.classList.add('selected')
+    learningLanguage = opt.textContent
+  })
+})
+
+// Hobbys sammeln
+function getSelectedHobbies() {
+  return Array.from(document.querySelectorAll('.hobby-grid input:checked')).map(i => i.value)
+}
 
 // Aktuellen Nutzer laden
 const currentUser = JSON.parse(localStorage.getItem('user'))
@@ -28,45 +50,44 @@ async function loadProfile() {
   }
 
   if (data) {
-    nameInput.value = data.name || ''
+    fullnameInput.value = data.fullname || ''
     usernameInput.value = data.username || ''
-    ageInput.value = data.age || ''
-    languageInput.value = data.language || ''
+    nativeLanguage = data.native_language || 'Deutsch'
+    learningLanguage = data.learning_language || 'Englisch'
+    const interests = data.interests || []
+
+    document.querySelectorAll('.hobby-grid input').forEach(i => {
+      i.checked = interests.includes(i.value)
+    })
   }
 }
 
 // Profil speichern / updaten
 profileForm.addEventListener('submit', async (e) => {
   e.preventDefault()
+
   const profileData = {
     user_id: currentUser.id,
-    name: nameInput.value,
+    fullname: fullnameInput.value,
     username: usernameInput.value,
-    age: ageInput.value,
-    language: languageInput.value
+    native_language: nativeLanguage,
+    learning_language: learningLanguage,
+    interests: getSelectedHobbies()
   }
 
-  // Prüfen, ob Profil schon existiert
-  const { data: existing, error: selectError } = await supabase
+  const { data: existing } = await supabase
     .from('profiles')
     .select('*')
     .eq('user_id', currentUser.id)
-    .single()
-
-  if (selectError && selectError.code !== 'PGRST116') {
-    console.error('Fehler beim Prüfen des Profils:', selectError)
-    return
-  }
+    .maybeSingle()
 
   let result
   if (existing) {
-    // Update
     result = await supabase
       .from('profiles')
       .update(profileData)
       .eq('user_id', currentUser.id)
   } else {
-    // Insert
     result = await supabase
       .from('profiles')
       .insert([profileData])
@@ -79,5 +100,4 @@ profileForm.addEventListener('submit', async (e) => {
   }
 })
 
-// Profil direkt beim Laden anzeigen
 loadProfile()
