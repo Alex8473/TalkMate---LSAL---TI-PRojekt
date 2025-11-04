@@ -1,33 +1,34 @@
 // js/login.js
 import { supabase } from './supabaseClient.js'
 
-const loginForm = document.getElementById('login-form')
-const registerForm = document.getElementById('register-form')
-const showRegisterBtn = document.getElementById('show-register-btn')
+const loginForm = document.getElementById('login-form');
+const registerForm = document.getElementById('register-form');
+const showRegisterBtn = document.getElementById('show-register-btn');
 const formTitle = document.getElementById('form-title');
-const backToLoginBtn = document.getElementById('back-to-login-btn')
+const backToLoginBtn = document.getElementById('back-to-login-btn');
 
 // Zeige Registrierungsformular
 showRegisterBtn.addEventListener('click', () => {
-  loginForm.style.display = 'none'
-  registerForm.style.display = 'block'
+  loginForm.style.display = 'none';
+  showRegisterBtn.style.display = 'none';
+  registerForm.style.display = 'block';
 })
 
 // Zurück zum Login
 backToLoginBtn.addEventListener('click', () => {
-  registerForm.style.display = 'none'
-  loginForm.style.display = 'block'
+  registerForm.style.display = 'none';
+  loginForm.style.display = 'block';
 })
 
 // Registrierung
 registerForm.addEventListener('submit', async (e) => {
   e.preventDefault()
-  const username = document.getElementById('new-username').value
-  const password = document.getElementById('new-password').value
+  const username = document.getElementById('Benutzername').value
+  const password = document.getElementById('Passwort').value
 
   const { error } = await supabase
     .from('users')
-    .insert([{ username, password }])
+    .insert([{ Benutzername, Passwort }])
 
   if (error) {
     alert('Fehler bei Registrierung: ' + error.message)
