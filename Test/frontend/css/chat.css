@@ -66,3 +66,116 @@ h1 {
   position: relative; /* Nicht mehr 'absolute' */
   flex-shrink: 0; /* Verhindere Schrumpfen */
 }
+
+/* chat.css (Ergänzungen) */
+
+/* Hilfsklasse zum Ausblenden */
+.hidden {
+    display: none !important;
+}
+
+/* Stelle sicher, dass die Ansichten den Platz füllen.
+   Sie müssen wie deine H1, chat-box etc. als Flex-Kinder 
+   im app-container funktionieren.
+*/
+#contact-list-view,
+#chat-view {
+    display: flex;
+    flex-direction: column;
+    /* Nimmt den Platz ein, den vorher h1 + chat-box eingenommen haben */
+    flex-grow: 1; 
+    overflow: hidden; /* Verhindert doppelte Scrollbars */
+}
+
+/* --- 1. Stile für die neue Kontaktliste --- */
+
+/* Titel-Styling (hast du schon, ggf. anpassen) */
+#contact-list-view h1 {
+    padding: 20px;
+    margin-bottom: 0;
+    flex-shrink: 0;
+}
+
+/* Container für die Kontakt-Items */
+.contact-list {
+    flex-grow: 1; /* Füllt den Platz unter dem Titel */
+    overflow-y: auto; /* Macht die Liste scrollbar */
+    padding: 0 10px;
+}
+
+/* Das "blockartige" Kontakt-Item */
+.contact-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 10px;
+    border-bottom: 1px solid #e0e0e0;
+    cursor: pointer;
+    background: #f8f9f7;
+    margin-bottom: 5px;
+    border-radius: 8px;
+}
+
+.contact-item:hover {
+    background: #f0f0f0;
+}
+
+.contact-photo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+    object-fit: cover;
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Verhindert, dass Text ausbricht */
+}
+
+.contact-name {
+    font-weight: 600;
+    font-size: 16px;
+    color: #333;
+}
+
+.contact-preview {
+    font-size: 14px;
+    color: #777;
+    white-space: nowrap; /* Verhindert Zeilenumbruch */
+    overflow: hidden;
+    text-overflow: ellipsis; /* ... bei zu langem Text */
+}
+
+
+/* --- 2. Stile für die neue Chat-Ansicht --- */
+
+/* Neuer Header innerhalb der Chat-Ansicht */
+.chat-header {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    /* Nimmt die Farbe deines Input-Bereichs auf */
+    background-color: #afb59d; 
+    flex-shrink: 0;
+    border-bottom: 1px solid #9a9a9a;
+}
+
+#back-to-list-button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    font-weight: bold;
+    color: #f8f9f7;
+    cursor: pointer;
+    padding: 0 10px;
+    margin-right: 10px;
+}
+
+#chat-partner-name {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #f8f9f7;
+}
+
