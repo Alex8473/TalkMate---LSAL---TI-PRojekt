@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-M">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat</title>
     <link rel="stylesheet" href="css/global.css" />
@@ -9,12 +9,43 @@
 </head>
 <body>
     <div class="app-container">
-        <h1>Chat</h1>
-        <div id="chat-box" class="chat-box"></div>
-        <div class="chat-input">
-            <input type="text" id="chat-message" placeholder="Type a message..." />
-            <button id="send-message">Send</button>
+
+        <div id="contact-list-view">
+            <h1>Chats</h1>
+            <div class="contact-list">
+                <div class="contact-item" data-name="Luca">
+                    <img src="images/icon3.png" alt="Profilbild" class="contact-photo">
+                    <div class="contact-info">
+                        <span class="contact-name">Luca</span>
+                        <span class="contact-preview">Hey</span>
+                    </div>
+                </div>
+
+                <div class="contact-item" data-name="Alex">
+                    <img src="images/icon3.png" alt="Profilbild" class="contact-photo">
+                    <div class="contact-info">
+                        <span class="contact-name">Alex</span>
+                        <span class="contact-preview">Hallo</span>
+                    </div>
+                </div>
+                </div>
         </div>
+
+        <div id="chat-view" class="hidden">
+            
+            <div class="chat-header">
+                <button id="back-to-list-button">&larr;</button>
+                <h2 id="chat-partner-name">Chat Partner</h2>
+            </div>
+            
+            <div id="chat-box" class="chat-box"></div>
+            
+            <div class="chat-input">
+                <input type="text" id="chat-message" placeholder="Type a message..." />
+                <button id="send-message">Send</button>
+            </div>
+        </div>
+
         <div class="icon-bar">
             <div class="icon">
                 <a href="profile.html"><img src="images/icon3.png" alt="Home Icon" /></a>
@@ -30,7 +61,10 @@
             </div>
         </div>
     </div>
+    
     <script type="module" src="js/supabaseClient.js"></script>
     <script type="module" src="js/chat.js"></script>
+    
+    <script type="module" src="js/chat-navigation.js"></script>
 </body>
 </html>
