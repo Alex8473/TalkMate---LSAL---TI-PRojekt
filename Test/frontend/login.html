@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-R" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login</title>
   <link rel="stylesheet" href="css/global.css" />
   <link rel="stylesheet" href="css/login.css" />
@@ -11,7 +11,7 @@
   <div class="app-container">
     <h1 id="form-title">Login</h1>
 
-    <!-- Registrierungs-Formular -->
+    <!-- Login-Formular -->
     <form id="login-form">
       <div class="searchbar">
         <input type="text" class="searchInput" id="login-username" placeholder="Username" required />
@@ -23,7 +23,8 @@
     </form>
 
     <button class="register-button" id="show-register-btn" type="button">Create Account</button>
-  
+
+    <!-- Registrierungsformular -->
     <form class="register-form" id="register-form" style="display:none;">
       <div class="searchbar">
         <input type="text" class="searchInput" id="Benutzername" placeholder="Benutzername" required />
@@ -33,64 +34,61 @@
       </div>
 
       <div class="profile-section">
-            <div class="section-title">Muttersprache</div>
-                <div class="language-selector">
-                    <div class="language-option selected">Deutsch</div>
-                    <div class="language-option">Englisch</div>
-                    <div class="language-option">Französisch</div>
-                </div>
+        <div class="section-title">Muttersprache</div>
+        <div class="language-selector">
+          <div class="language-option selected">Deutsch</div>
+          <div class="language-option">Englisch</div>
+          <div class="language-option">Französisch</div>
+        </div>
       </div>
 
-       <div class="profile-section">
-                <div class="section-title">Welche Sprache willst du lernen?</div>
-                <div class="language-selector">
-                    <div class="language-option selected">Deutsch</div>
-                    <div class="language-option">Englisch</div>
-                    <div class="language-option">Französisch</div>
-                </div>
-                
+      <div class="profile-section">
+        <div class="section-title">Welche Sprache willst du lernen?</div>
+        <div class="language-selector">
+          <div class="language-option selected">Deutsch</div>
+          <div class="language-option">Englisch</div>
+          <div class="language-option">Französisch</div>
         </div>
-
+      </div>
 
       <div class="hobby-section">
         <div class="section-title">Interessen & Hobbys</div>
-         <div class="hobby-grid">
-                    <div class="hobby-item">
-                        <input type="checkbox" id="travel" name="hobbies" value="travel" checked>
-                        <label for="travel">Reisen</label>
-                    </div>
-                    <div class="hobby-item">
-                        <input type="checkbox" id="music" name="hobbies" value="music">
-                        <label for="music">Musik</label>
-                    </div>
-                    <div class="hobby-item">
-                        <input type="checkbox" id="sports" name="hobbies" value="sports">
-                        <label for="sports">Sport</label>
-                    </div>
-                    <div class="hobby-item">
-                        <input type="checkbox" id="cooking" name="hobbies" value="cooking" checked>
-                        <label for="cooking">Kochen</label>
-                    </div>
-                    <div class="hobby-item">
-                        <input type="checkbox" id="reading" name="hobbies" value="reading">
-                        <label for="reading">Lesen</label>
-                    </div>
-                    <div class="hobby-item">
-                        <input type="checkbox" id="movies" name="hobbies" value="movies">
-                        <label for="movies">Filme</label>
-                    </div>
-                    <div class="hobby-item">
-                        <input type="checkbox" id="gaming" name="hobbies" value="gaming">
-                        <label for="gaming">Gaming</label>
-                    </div>
-                    <div class="hobby-item">
-                        <input type="checkbox" id="art" name="hobbies" value="art">
-                        <label for="art">Kunst</label>
-                    </div>
-                </div>
-            </div>
-        
-      
+        <div class="hobby-grid">
+          <div class="hobby-item">
+            <input type="checkbox" id="travel" name="hobbies" value="Reisen" checked>
+            <label for="travel">Reisen</label>
+          </div>
+          <div class="hobby-item">
+            <input type="checkbox" id="music" name="hobbies" value="Musik">
+            <label for="music">Musik</label>
+          </div>
+          <div class="hobby-item">
+            <input type="checkbox" id="sports" name="hobbies" value="Sport">
+            <label for="sports">Sport</label>
+          </div>
+          <div class="hobby-item">
+            <input type="checkbox" id="cooking" name="hobbies" value="Kochen" checked>
+            <label for="cooking">Kochen</label>
+          </div>
+          <div class="hobby-item">
+            <input type="checkbox" id="reading" name="hobbies" value="Lesen">
+            <label for="reading">Lesen</label>
+          </div>
+          <div class="hobby-item">
+            <input type="checkbox" id="movies" name="hobbies" value="Filme">
+            <label for="movies">Filme</label>
+          </div>
+          <div class="hobby-item">
+            <input type="checkbox" id="gaming" name="hobbies" value="Gaming">
+            <label for="gaming">Gaming</label>
+          </div>
+          <div class="hobby-item">
+            <input type="checkbox" id="art" name="hobbies" value="Kunst">
+            <label for="art">Kunst</label>
+          </div>
+        </div>
+      </div>
+
       <button type="submit" class="update-button">Register</button>
       <button type="button" id="back-to-login-btn" class="register-button">Back to Login</button>
     </form>
@@ -98,9 +96,9 @@
     <div class="logo-container">
       <img src="images/logo-transparent.png" alt="Logo" class="logo-image">
     </div>
-
   </div>
 
-  <script src="js/login.js"></script>
+  <script type="module" src="js/login.js"></script>
 </body>
 </html>
+ 
