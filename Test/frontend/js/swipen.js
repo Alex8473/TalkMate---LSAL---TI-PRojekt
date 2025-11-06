@@ -1,4 +1,3 @@
-// js/swipen.js
 import { supabase } from './supabaseClient.js'
 
 const swipeContainer = document.getElementById('profile-swipe')
@@ -18,10 +17,21 @@ if (!currentUser) {
 // Profile aus Supabase laden
 async function loadProfiles() {
   try {
-    // 🔧 Zeigt alle Profile, auch zum Testen
+    // IDs der Profile, die der User schon bewertet hat
+    const { data: seen, error: seenErr } = await supabase
+      .from('matches')
+      .select('target_id')
+      .eq('source_id', currentUser.id)
+
+    if (seenErr) throw seenErr
+    const seenIds = seen.map(m => m.target_id)
+
+    // Profile laden, die noch nicht bewertet wurden
     const { data, error } = await supabase
       .from('profiles')
       .select('*')
+      .not('user_id', 'in', `(${seenIds.join(',') || 'NULL'})`)
+      .neq('user_id', currentUser.id) // eigenen User ausschließen
 
     if (error) throw error
 
@@ -34,6 +44,7 @@ async function loadProfiles() {
 
     profiles = data
     console.log('Geladene Profile:', profiles)
+    currentIndex = 0
     showProfile()
   } catch (err) {
     console.error('Fehler beim Laden der Profile:', err.message)
@@ -53,7 +64,6 @@ function showProfile() {
   const p = profiles[currentIndex]
   swipeContainer.innerHTML = `
     <div class="profile-card">
-      <!-- Dummy-Bild -->
       <div class="profile-avatar" style="width:100px;height:100px;background:#ccc;border-radius:50%;margin:0 auto 10px;"></div>
       <h2>${p.fullname || '-'}</h2>
       <p><strong>Alter:</strong> ${p.age || '-'}</p>
@@ -72,7 +82,7 @@ async function swipeProfile(liked) {
       .from('matches')
       .insert([
         {
-          user_id: currentUser.id,
+          source_id: currentUser.id,
           target_id: selected.user_id,
           liked: liked
         }

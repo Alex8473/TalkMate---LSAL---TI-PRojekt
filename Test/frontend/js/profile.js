@@ -8,7 +8,7 @@ const usernameInput = document.getElementById('username')
 let nativeLanguage = 'Deutsch'
 let learningLanguage = 'Englisch'
 
-// Klickbare Sprachoptionen
+// Sprachoptionen klickbar machen
 document.querySelectorAll('#native-language .language-option').forEach(opt => {
   opt.addEventListener('click', () => {
     document.querySelectorAll('#native-language .language-option').forEach(o => o.classList.remove('selected'))
@@ -16,6 +16,7 @@ document.querySelectorAll('#native-language .language-option').forEach(opt => {
     nativeLanguage = opt.textContent
   })
 })
+
 document.querySelectorAll('#learning-language .language-option').forEach(opt => {
   opt.addEventListener('click', () => {
     document.querySelectorAll('#learning-language .language-option').forEach(o => o.classList.remove('selected'))
@@ -29,7 +30,7 @@ function getSelectedHobbies() {
   return Array.from(document.querySelectorAll('.hobby-grid input:checked')).map(i => i.value)
 }
 
-// Aktuellen Nutzer laden
+// Aktuellen User laden
 const currentUser = JSON.parse(localStorage.getItem('user'))
 if (!currentUser) {
   alert('Bitte zuerst einloggen!')
@@ -38,27 +39,40 @@ if (!currentUser) {
 
 // Profil laden
 async function loadProfile() {
-  const { data, error } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('user_id', currentUser.id)
-    .single()
+  try {
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('user_id', currentUser.id)
+      .single()
 
-  if (error && error.code !== 'PGRST116') {
-    console.error('Fehler beim Laden des Profils:', error)
-    return
-  }
+    if (error && error.code !== 'PGRST116') {
+      console.error('Fehler beim Laden des Profils:', error)
+      return
+    }
 
-  if (data) {
-    fullnameInput.value = data.fullname || ''
-    usernameInput.value = data.username || ''
-    nativeLanguage = data.native_language || 'Deutsch'
-    learningLanguage = data.learning_language || 'Englisch'
-    const interests = data.interests || []
+    if (data) {
+      console.log('Profil geladen:', data)
+      fullnameInput.value = data.fullname || ''
+      usernameInput.value = data.username || ''
+      nativeLanguage = data.native_language || 'Deutsch'
+      learningLanguage = data.learning_language || 'Englisch'
 
-    document.querySelectorAll('.hobby-grid input').forEach(i => {
-      i.checked = interests.includes(i.value)
-    })
+      const interests = data.interests || []
+      document.querySelectorAll('.hobby-grid input').forEach(i => {
+        i.checked = interests.includes(i.value)
+      })
+
+      // UI Sprachoptionen markieren
+      document.querySelectorAll('#native-language .language-option').forEach(opt => {
+        opt.classList.toggle('selected', opt.textContent === nativeLanguage)
+      })
+      document.querySelectorAll('#learning-language .language-option').forEach(opt => {
+        opt.classList.toggle('selected', opt.textContent === learningLanguage)
+      })
+    }
+  } catch (err) {
+    console.error('Fehler beim Laden des Profils (try/catch):', err.message)
   }
 }
 
@@ -70,33 +84,48 @@ profileForm.addEventListener('submit', async (e) => {
     user_id: currentUser.id,
     fullname: fullnameInput.value,
     username: usernameInput.value,
+    age: 0, // Standardwert, da kein Eingabefeld
     native_language: nativeLanguage,
     learning_language: learningLanguage,
     interests: getSelectedHobbies()
   }
 
-  const { data: existing } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('user_id', currentUser.id)
-    .maybeSingle()
-
-  let result
-  if (existing) {
-    result = await supabase
+  try {
+    // Existenz prüfen
+    const { data: existing, error: existingErr } = await supabase
       .from('profiles')
-      .update(profileData)
+      .select('*')
       .eq('user_id', currentUser.id)
-  } else {
-    result = await supabase
-      .from('profiles')
-      .insert([profileData])
-  }
+      .maybeSingle()
 
-  if (result.error) {
-    alert('Fehler beim Speichern des Profils: ' + result.error.message)
-  } else {
-    alert('Profil erfolgreich gespeichert!')
+    if (existingErr) {
+      console.error('Fehler beim Prüfen des Profils:', existingErr)
+      alert('Fehler beim Prüfen des Profils. Siehe Konsole.')
+      return
+    }
+
+    let result
+    if (existing) {
+      result = await supabase
+        .from('profiles')
+        .update(profileData)
+        .eq('user_id', currentUser.id)
+    } else {
+      result = await supabase
+        .from('profiles')
+        .insert([profileData])
+    }
+
+    if (result.error) {
+      console.error('Fehler beim Speichern des Profils:', result.error)
+      alert('Fehler beim Speichern des Profils. Siehe Konsole.')
+    } else {
+      console.log('Profil erfolgreich gespeichert:', result.data)
+      alert('Profil erfolgreich gespeichert!')
+    }
+  } catch (err) {
+    console.error('Fehler beim Speichern (try/catch):', err)
+    alert('Fehler beim Speichern des Profils. Siehe Konsole.')
   }
 })
 
