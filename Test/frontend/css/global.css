@@ -28,11 +28,8 @@ body {
   overflow: hidden; /* Verhindert Überlaufen */
   position: relative;
   box-sizing: border-box;
-  /* Standard-Padding. 
-    Die 90px am Boden lassen Platz für die 70px hohe Icon-Bar + 20px Innenabstand.
-  */
   padding: 20px 20px 90px 20px;
-  overflow-y: auto; /* Erlaubt das Scrollen von Inhalten wie Formularen */
+  overflow-y: auto; 
 
 }
 
@@ -51,12 +48,13 @@ h1 {
    justify-content: space-around;
    align-items: center;
    height: 70px;
-   position: absolute; /* Fixiert am unteren Rand von .app-container */
+   position: static;
    bottom: 0;
    left: 0;
    width: 100%; 
    border-top: 1px solid #d4d0b9;
    background-color: #afb59d;
+   margin-top: 30px;
 }
 
 .icon-bar a {
@@ -70,7 +68,7 @@ h1 {
 }
 
 .icon-bar .icon img {
-   width: 34px;
+   width: 35px;
    height: 36px;
    cursor: pointer;
 }
