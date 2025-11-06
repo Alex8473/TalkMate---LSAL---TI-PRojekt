@@ -44,6 +44,23 @@
  padding: 20px; 
  border-radius: 10px;
  overflow: hidden;
+ transition: transform 0.5s ease-out, background-color 0.4s ease-out;
+ z-index: 10;
+}
+.profile-Swipe.swipe-left {
+  transform: translateX(-150%) rotate(-20deg);
+  background-color: #eb5757; /* Rot (Ablehnen-Farbe) */
+}
+
+
+.profile-Swipe.swipe-right {
+  transform: translateX(150%) rotate(20deg);
+  background-color: #6fcf97; /* Grün (Annehmen-Farbe) */
+}
+
+
+.profile-Swipe.no-transition {
+  transition: none;
 }
 
 
