@@ -17,62 +17,105 @@ if (!currentUser) {
 // Profile aus Supabase laden
 async function loadProfiles() {
   try {
-    // IDs der Profile, die der User schon bewertet hat
+    // 1. IDs der Profile holen, die der User schon bewertet hat
     const { data: seen, error: seenErr } = await supabase
       .from('matches')
       .select('target_id')
-      .eq('source_id', currentUser.id)
+      .eq('source_id', currentUser.id);
 
-    if (seenErr) throw seenErr
-    const seenIds = seen.map(m => m.target_id)
+    if (seenErr) throw seenErr;
 
-    // Profile laden, die noch nicht bewertet wurden
-    const { data, error } = await supabase
+    // seenIds ist jetzt ein Array von UUIDs, z.B. ['uuid1', 'uuid2']
+    const seenIds = seen.map(m => m.target_id);
+
+    // 2. Query-Builder für Profile starten
+    // Wir fangen mit dem Basis-Query an
+    let query = supabase
       .from('profiles')
       .select('*')
-      .not('user_id', 'in', `(${seenIds.join(',') || 'NULL'})`)
-      .neq('user_id', currentUser.id) // eigenen User ausschließen
+      .neq('user_id', currentUser.id); // eigenen User immer ausschließen
 
-    if (error) throw error
+    // 3. Den .not Filter NUR hinzufügen, wenn seenIds NICHT leer ist
+    if (seenIds.length > 0) {
+      // Nur wenn wir IDs haben, fügen wir den Filter hinzu
+      query = query.not('user_id', 'in', `(${seenIds.join(',')})`);
+    }
+    
+    // 4. Query jetzt sicher ausführen
+    const { data, error } = await query;
 
+    if (error) throw error; // Fängt andere Query-Fehler ab
+
+    // 5. Ergebnisse verarbeiten
     if (!data || data.length === 0) {
-      swipeContainer.innerHTML = '<p>Keine Profile verfügbar.</p>'
-      acceptBtn.disabled = true
-      rejectBtn.disabled = true
-      return
+      swipeContainer.innerHTML = `
+        <div class="profile-info-overlay">
+          <p>Keine neuen Profile verfügbar.</p>
+        </div>`;
+      acceptBtn.disabled = true;
+      rejectBtn.disabled = true;
+      return;
     }
 
-    profiles = data
-    console.log('Geladene Profile:', profiles)
-    currentIndex = 0
-    showProfile()
+    profiles = data;
+    console.log('Geladene Profile:', profiles);
+    currentIndex = 0;
+    
+    // 6. Das erste Profil mit der korrekten HTML-Struktur anzeigen
+    showProfile(); // Diese Funktion nutzt jetzt deinen korrigierten Code von vorhin
+
   } catch (err) {
-    console.error('Fehler beim Laden der Profile:', err.message)
-    swipeContainer.innerHTML = '<p>Fehler beim Laden der Profile</p>'
+    console.error('Fehler beim Laden der Profile:', err.message);
+    // Wir verwenden hier auch die Overlay-Struktur, damit der Fehler besser aussieht
+    swipeContainer.innerHTML = `
+      <div class="profile-info-overlay">
+         <p>Fehler beim Laden der Profile.</p>
+         <p style="font-size: 12px; margin-top: 10px;">${err.message}</p>
+      </div>`;
   }
 }
 
 // Aktuelles Profil anzeigen
 function showProfile() {
   if (currentIndex >= profiles.length) {
-    swipeContainer.innerHTML = '<p>Keine weiteren Profile verfügbar.</p>'
+    swipeContainer.innerHTML = '<div class="profile-info-overlay"><p>Keine weiteren Profile verfügbar.</p></div>'
     acceptBtn.disabled = true
     rejectBtn.disabled = true
     return
   }
 
-  const p = profiles[currentIndex]
-  swipeContainer.innerHTML = `
-    <div class="profile-card">
-      <div class="profile-avatar" style="width:100px;height:100px;background:#ccc;border-radius:50%;margin:0 auto 10px;"></div>
-      <h2>${p.fullname || '-'}</h2>
-      <p><strong>Alter:</strong> ${p.age || '-'}</p>
-      <p><strong>Sprache:</strong> ${p.native_language || '-'} → ${p.learning_language || '-'}</p>
-      <p><strong>Interessen:</strong> ${Array.isArray(p.interests) ? p.interests.join(', ') : '-'}</p>
-    </div>
-  `
-}
+  const p = profiles[currentIndex];
 
+  // Erzeuge die Hobby-Tags als HTML-String
+  let hobbiesHTML = '';
+  if (Array.isArray(p.interests)) {
+    hobbiesHTML = p.interests.map(hobby => 
+      `<span class="profile-hobby-tag">${hobby}</span>`
+    ).join(''); // Erzeugt: <span..._>Reisen</span><span..._>Kochen</span>...
+  }
+
+  // Setze das innerHTML mit der KORREKTEN Struktur aus deinem HTML/CSS
+  swipeContainer.innerHTML = `
+    
+    <div class="profile-info-overlay">
+
+      <div class="profile-name-age">
+        ${p.fullname || 'Unbekannt'}, ${p.age || '?'}
+      </div>
+
+      <div class="profile-description">
+        Muttersprache: ${p.native_language || '-'}<br>
+        Sprache die ich lernen will: ${p.learning_language || '-'}
+      </div>
+
+      <div class="profile-hobbies-list">
+        ${hobbiesHTML || 'Keine Hobbys angegeben'}
+      </div>
+
+    </div>
+  `;
+
+}
 // Swipe speichern
 async function swipeProfile(liked) {
   const selected = profiles[currentIndex]
