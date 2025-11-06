@@ -56,3 +56,16 @@
 .delete-button:hover {
  background-color: #834040;
 }
+
+.icon-bar {
+   display: flex;
+   justify-content: space-around;
+   align-items: center;
+   height: 70px;
+   position: absolute;
+   bottom: 0;
+   left: 0;
+   width: 100%; 
+   border-top: 1px solid #d4d0b9;
+   background-color: #afb59d;
+}
