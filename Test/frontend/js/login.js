@@ -1,4 +1,3 @@
-// js/login.js
 import { supabase } from './supabaseClient.js'
 
 const loginForm = document.getElementById('login-form')
@@ -9,6 +8,7 @@ const backToLoginBtn = document.getElementById('back-to-login-btn')
 // Zeige Registrierungsformular
 showRegisterBtn.addEventListener('click', () => {
   loginForm.style.display = 'none'
+  showRegisterBtn.style.display = 'none'
   registerForm.style.display = 'block'
 })
 
@@ -16,17 +16,19 @@ showRegisterBtn.addEventListener('click', () => {
 backToLoginBtn.addEventListener('click', () => {
   registerForm.style.display = 'none'
   loginForm.style.display = 'block'
+  showRegisterBtn.style.display = 'block'
 })
 
 // Registrierung
 registerForm.addEventListener('submit', async (e) => {
   e.preventDefault()
-  const username = document.getElementById('new-username').value
-  const password = document.getElementById('new-password').value
+  const username = document.getElementById('register-username').value
+  const password = document.getElementById('register-password').value
 
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from('users')
     .insert([{ username, password }])
+    .select()
 
   if (error) {
     alert('Fehler bei Registrierung: ' + error.message)
@@ -34,6 +36,7 @@ registerForm.addEventListener('submit', async (e) => {
     alert('Benutzer erfolgreich erstellt!')
     registerForm.style.display = 'none'
     loginForm.style.display = 'block'
+    showRegisterBtn.style.display = 'block'
   }
 })
 
@@ -53,7 +56,6 @@ loginForm.addEventListener('submit', async (e) => {
   if (error || !data) {
     alert('Falscher Benutzername oder Passwort!')
   } else {
-    // Speichere Daten lokal, inklusive id für Profil-Tabelle
     localStorage.setItem('user', JSON.stringify({ id: data.id, username: data.username }))
     window.location.href = 'profile.html'
   }
