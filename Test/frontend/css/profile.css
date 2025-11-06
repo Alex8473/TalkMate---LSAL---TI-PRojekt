@@ -1,10 +1,8 @@
-.icon-bar {
-  position: static;
-  margin-top: 15px; /* Optional: Etwas Abstand zum Button darüber */
-}
+
 .app-container {
-  padding-bottom: 20px;
+  padding-bottom: 15px;
 }
 form > button[type="submit"]:not(.update-button) {
   display: none;
 }
+
