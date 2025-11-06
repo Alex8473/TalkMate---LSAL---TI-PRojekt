@@ -1,0 +1,62 @@
+import { supabase } from './supabaseClient.js'
+
+const loginForm = document.getElementById('login-form')
+const registerForm = document.getElementById('register-form')
+const showRegisterBtn = document.getElementById('show-register-btn')
+const backToLoginBtn = document.getElementById('back-to-login-btn')
+
+// Zeige Registrierungsformular
+showRegisterBtn.addEventListener('click', () => {
+  loginForm.style.display = 'none'
+  showRegisterBtn.style.display = 'none'
+  registerForm.style.display = 'block'
+})
+
+// Zurück zum Login
+backToLoginBtn.addEventListener('click', () => {
+  registerForm.style.display = 'none'
+  loginForm.style.display = 'block'
+  showRegisterBtn.style.display = 'block'
+})
+
+// Registrierung
+registerForm.addEventListener('submit', async (e) => {
+  e.preventDefault()
+  const username = document.getElementById('register-username').value
+  const password = document.getElementById('register-password').value
+
+  const { data, error } = await supabase
+    .from('users')
+    .insert([{ username, password }])
+    .select()
+
+  if (error) {
+    alert('Fehler bei Registrierung: ' + error.message)
+  } else {
+    alert('Benutzer erfolgreich erstellt!')
+    registerForm.style.display = 'none'
+    loginForm.style.display = 'block'
+    showRegisterBtn.style.display = 'block'
+  }
+})
+
+// Login
+loginForm.addEventListener('submit', async (e) => {
+  e.preventDefault()
+  const username = document.getElementById('login-username').value
+  const password = document.getElementById('login-password').value
+
+  const { data, error } = await supabase
+    .from('users')
+    .select('*')
+    .eq('username', username)
+    .eq('password', password)
+    .single()
+
+  if (error || !data) {
+    alert('Falscher Benutzername oder Passwort!')
+  } else {
+    localStorage.setItem('user', JSON.stringify({ id: data.id, username: data.username }))
+    window.location.href = 'profile.html'
+  }
+})
