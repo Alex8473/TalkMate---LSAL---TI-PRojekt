@@ -116,29 +116,52 @@ function showProfile() {
   `;
 
 }
-// Swipe speichern
-async function swipeProfile(liked) {
+// ALT
+async function saveSwipe(liked) {
   const selected = profiles[currentIndex]
 
   try {
-    const { error } = await supabase
-      .from('matches')
-      .insert([
-        {
-          source_id: currentUser.id,
-          target_id: selected.user_id,
-          liked: liked
-        }
-      ])
-
-    if (error) throw error
-
-    console.log(`${liked ? 'Akzeptiert' : 'Abgelehnt'}: ${selected.fullname}`)
+   const { error } = await supabase
+    
+   if (error) throw error
+   console.log(`${liked ? 'Akzeptiert' : 'Abgelehnt'}: ${selected.fullname}`)
   } catch (err) {
-    console.error('Fehler beim Speichern des Swipes:', err.message)
+   console.error('Fehler beim Speichern des Swipes:', err.message)
   }
+}
 
-  nextProfile()
+// NEU (Diese Funktion komplett einfügen)
+function animateSwipe(liked) {
+  // 1. Buttons sperren
+  acceptBtn.disabled = true;
+  rejectBtn.disabled = true;
+
+  // 2. CSS-Klasse für Animation hinzufügen
+  const animationClass = liked ? 'swipe-right' : 'swipe-left';
+  swipeContainer.classList.add(animationClass);
+
+  // 3. Warten, bis Animation fertig ist (500ms)
+  setTimeout(() => {
+    // 4. Jetzt erst speichern
+    saveSwipe(liked);
+
+    // 5. Nächstes Profil laden
+    nextProfile();
+
+    // 6. Animation zurücksetzen für die nächste Karte
+    swipeContainer.classList.add('no-transition');
+    swipeContainer.classList.remove(animationClass);
+
+    setTimeout(() => {
+      swipeContainer.classList.remove('no-transition');
+      // 7. Buttons wieder freigeben
+      if (currentIndex < profiles.length) {
+         acceptBtn.disabled = false;
+         rejectBtn.disabled = false;
+      }
+    }, 20); 
+
+  }, 500); // Muss zur CSS-Zeit passen
 }
 
 // Nächstes Profil
@@ -148,8 +171,8 @@ function nextProfile() {
 }
 
 // Buttons aktivieren
-acceptBtn.addEventListener('click', () => swipeProfile(true))
-rejectBtn.addEventListener('click', () => swipeProfile(false))
+acceptBtn.addEventListener('click', () => animateSwipe(true))
+rejectBtn.addEventListener('click', () => animateSwipe(false))
 
 // Start
 document.addEventListener('DOMContentLoaded', loadProfiles)
