@@ -92,8 +92,8 @@ function loadFakeMatches() {
 
   // 1. Unsere Fake-Kontakte
   const fakeProfiles = [
-    { id: 'fake-user-1', name: 'Max Mustermann' },
-    { id: 'fake-user-2', name: 'Erika Musterfrau' }
+    { id: 'fake-user-1', name: 'Alex' },
+    { id: 'fake-user-2', name: 'Lukas' }
   ];
 
   // 2. 'receivers'-Objekt füllen (wichtig für Chat-Anzeige)
