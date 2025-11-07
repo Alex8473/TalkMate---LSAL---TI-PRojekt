@@ -98,51 +98,106 @@
 
 /* Stile für die Hobby-Auswahl */
 .hobby-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* Zwei Spalten */
-    gap: 10px;
-    margin-bottom: 15px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 20px;
 }
 
-/* Versteckt die originale Checkbox */
+.hobby-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 15px;
+  background: #f8f9f7;
+  border-radius: 15px;
+  border: 2px solid #e0e0e0;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.hobby-item:hover {
+  background: white;
+  border-color: #7a8471;
+}
+
 .hobby-item input[type="checkbox"] {
-    display: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #7a8471;
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+  position: relative;
+  appearance: none;
 }
 
-/* Gestaltet das Label wie einen Button (wie im Bild) */
+.hobby-item input[type="checkbox"]:checked {
+  background: #7a8471;
+  border-color: #7a8471;
+}
+
+.hobby-item input[type="checkbox"]:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+}
+
 .hobby-item label {
-    display: flex; /* Stellt sicher, dass der Haken richtig positioniert ist */
-    align-items: center;
-    justify-content: center; /* Zentriert den Text */
-    background: #f8f9f7;
-    border: 2px solid #e0e0e0;
-    border-radius: 20px;
-    padding: 10px 15px;
-    cursor: pointer;
-    font-size: 14px;
-    color: #4a5442;
-    transition: all 0.2s ease;
-    width: 100%;
-    box-sizing: border-box; /* Verhindert Layout-Probleme durch Padding */
-    position: relative; /* Für den Haken */
+  font-size: 16px;
+  color: #4a5442;
+  cursor: pointer;
+  user-select: none;
 }
 
-/* Stil für ausgewählte Hobbys (wenn Checkbox gecheckt ist) */
 .hobby-item input[type="checkbox"]:checked + label {
-    background-color: #ffffff;
-    border-color: #4a5442;
-    font-weight: 600;
-    padding-left: 30px; /* Platz für den Haken */
+  color: #7a8471;
+  font-weight: 600;
 }
 
-/* Fügt den Haken hinzu (wie im Bild) */
-.hobby-item input[type="checkbox"]:checked + label::before {
-    content: '✔';
+/* --- ANGEPASSTE STILE FÜR FILTER-SEITE --- */
+
+.filter-header {
+    display: flex;
+    justify-content: center; /* H1 zentrieren */
+    align-items: center;
+    border-bottom: 1px solid #d4d0b9;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    position: relative; /* Wichtig für den Zurück-Button */
+}
+
+.filter-header h1 {
+    margin: 0; 
+    font-size: 1.5rem; /* Ggf. Schriftgröße anpassen */
+}
+
+/* Stile für .close-btn können entfernt werden */
+/* .filter-header .close-btn { ... } */
+
+
+/* NEUE STILE FÜR DEN ZURÜCK-BUTTON */
+.back-btn {
     position: absolute;
-    left: 12px;
+    left: 0; /* Ganz links im Header */
     top: 50%;
-    transform: translateY(-50%);
+    transform: translateY(-50%); /* Vertikal zentrieren */
+    
+    background: none;
+    border: none;
+    font-size: 2.2rem; /* Macht das '<' schön groß */
+    font-weight: 300;
     color: #4a5442;
-    font-weight: bold;
-    font-size: 12px;
+    cursor: pointer;
+    padding: 0 15px; /* Etwas Klickfläche geben */
+    line-height: 1;
+}
+
+.back-btn:hover {
+    color: #000;
 }
