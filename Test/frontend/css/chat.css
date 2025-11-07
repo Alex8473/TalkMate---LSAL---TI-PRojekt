@@ -201,16 +201,16 @@ h1 {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 5px;
-  border-radius: 50%;
+  padding: 10px;
+  border-radius: 80%;
   display: flex; /* Zentriert das Bild im Button */
   align-items: center;
   justify-content: center;
 }
 
 .icon-button img {
-  width: 24px;  /* Passe die Icon-Größe an */
-  height: 24px;
+  width: 40px;  /* Passe die Icon-Größe an */
+  height: 50px;
 }
 
 .icon-button:hover {
