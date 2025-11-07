@@ -1,3 +1,4 @@
+// js/swipen.js (verbose, robust)
 import { supabase } from './supabaseClient.js'
 
 const swipeContainer = document.getElementById('profile-swipe')
@@ -14,68 +15,70 @@ if (!currentUser) {
   window.location.href = 'login.html'
 }
 
+// Hilfsfunktion: sichere Anzeige von Fehlern
+function showError(msg, err) {
+  console.error(msg, err)
+  swipeContainer.innerHTML = `<div class="profile-info-overlay"><p style="color:red">${msg}</p></div>`
+}
+
 // Profile aus Supabase laden
 async function loadProfiles() {
   try {
-    // 1. IDs der Profile holen, die der User schon bewertet hat
+    console.log('[swipe] Lade bereits bewertete target_ids für', currentUser.id)
+
     const { data: seen, error: seenErr } = await supabase
       .from('matches')
       .select('target_id')
-      .eq('source_id', currentUser.id);
+      .eq('source_id', currentUser.id)
 
-    if (seenErr) throw seenErr;
+    if (seenErr) {
+      // Wenn hier Permission denied oder RLS, stoppen und ausgeben
+      return showError('Fehler beim Lesen bereits bewerteter Einträge (matches). Prüfe RLS/Policies.', seenErr)
+    }
 
-    // seenIds ist jetzt ein Array von UUIDs, z.B. ['uuid1', 'uuid2']
-    const seenIds = seen.map(m => m.target_id);
+    const seenIds = (seen || []).map(m => m.target_id).filter(Boolean)
+    console.log('[swipe] seenIds:', seenIds)
 
-    // 2. Query-Builder für Profile starten
-    // Wir fangen mit dem Basis-Query an
+    // Build safe 'in' clause: quoted UUIDs e.g. ('u1','u2')
     let query = supabase
       .from('profiles')
       .select('*')
-      .neq('user_id', currentUser.id); // eigenen User immer ausschließen
+      .neq('user_id', currentUser.id) // ausgeschlossen: eigener user
 
-    // 3. Den .not Filter NUR hinzufügen, wenn seenIds NICHT leer ist
     if (seenIds.length > 0) {
-      // Nur wenn wir IDs haben, fügen wir den Filter hinzu
-      query = query.not('user_id', 'in', `(${seenIds.join(',')})`);
+      // quote each id to ensure SQL IN works
+      const quoted = seenIds.map(id => `'${id}'`).join(',')
+      console.log('[swipe] using NOT IN with:', quoted)
+      query = query.not('user_id', 'in', `(${quoted})`)
+    } else {
+      console.log('[swipe] no seenIds, loading all except self')
     }
-    
-    // 4. Query jetzt sicher ausführen
-    const { data, error } = await query;
 
-    if (error) throw error; // Fängt andere Query-Fehler ab
+    const { data, error } = await query
+    if (error) {
+      return showError('Fehler beim Laden der Profiles (Query).', error)
+    }
 
-    // 5. Ergebnisse verarbeiten
     if (!data || data.length === 0) {
       swipeContainer.innerHTML = `
         <div class="profile-info-overlay">
           <p>Keine neuen Profile verfügbar.</p>
-        </div>`;
-      acceptBtn.disabled = true;
-      rejectBtn.disabled = true;
-      return;
+        </div>`
+      acceptBtn.disabled = true
+      rejectBtn.disabled = true
+      return
     }
 
-    profiles = data;
-    console.log('Geladene Profile:', profiles);
-    currentIndex = 0;
-    
-    // 6. Das erste Profil mit der korrekten HTML-Struktur anzeigen
-    showProfile(); // Diese Funktion nutzt jetzt deinen korrigierten Code von vorhin
-
+    profiles = data
+    currentIndex = 0
+    console.log('[swipe] geladene profiles:', profiles)
+    showProfile()
   } catch (err) {
-    console.error('Fehler beim Laden der Profile:', err.message);
-    // Wir verwenden hier auch die Overlay-Struktur, damit der Fehler besser aussieht
-    swipeContainer.innerHTML = `
-      <div class="profile-info-overlay">
-         <p>Fehler beim Laden der Profile.</p>
-         <p style="font-size: 12px; margin-top: 10px;">${err.message}</p>
-      </div>`;
+    showError('Unerwarteter Fehler beim Laden der Profile.', err)
   }
 }
 
-// Aktuelles Profil anzeigen
+// Profil anzeigen
 function showProfile() {
   if (currentIndex >= profiles.length) {
     swipeContainer.innerHTML = '<div class="profile-info-overlay"><p>Keine weiteren Profile verfügbar.</p></div>'
@@ -84,95 +87,129 @@ function showProfile() {
     return
   }
 
-  const p = profiles[currentIndex];
-
-  // Erzeuge die Hobby-Tags als HTML-String
-  let hobbiesHTML = '';
+  const p = profiles[currentIndex]
+  let hobbiesHTML = ''
   if (Array.isArray(p.interests)) {
-    hobbiesHTML = p.interests.map(hobby => 
-      `<span class="profile-hobby-tag">${hobby}</span>`
-    ).join(''); // Erzeugt: <span..._>Reisen</span><span..._>Kochen</span>...
+    hobbiesHTML = p.interests.map(hobby => `<span class="profile-hobby-tag">${hobby}</span>`).join('')
   }
 
-  // Setze das innerHTML mit der KORREKTEN Struktur aus deinem HTML/CSS
   swipeContainer.innerHTML = `
-    
     <div class="profile-info-overlay">
-
       <div class="profile-name-age">
         ${p.fullname || 'Unbekannt'}, ${p.age || '?'}
       </div>
-
       <div class="profile-description">
         Muttersprache: ${p.native_language || '-'}<br>
         Sprache die ich lernen will: ${p.learning_language || '-'}
       </div>
-
       <div class="profile-hobbies-list">
         ${hobbiesHTML || 'Keine Hobbys angegeben'}
       </div>
-
     </div>
-  `;
-
+  `
 }
-// ALT
+
+// Speichere Swipe (robust; prüft existent, führt insert oder update aus)
 async function saveSwipe(liked) {
   const selected = profiles[currentIndex]
+  if (!selected) {
+    console.warn('[swipe] kein ausgewähltes Profil zum Speichern')
+    return
+  }
+
+  // Bestimme target id: versuche user_id, fallback id
+  const targetId = selected.user_id || selected.id
+  if (!targetId) {
+    console.error('[swipe] selected hat keine user_id oder id:', selected)
+    return
+  }
 
   try {
-   const { error } = await supabase
-    
-   if (error) throw error
-   console.log(`${liked ? 'Akzeptiert' : 'Abgelehnt'}: ${selected.fullname}`)
+    console.log(`[swipe] Speichere swipe: source=${currentUser.id}, target=${targetId}, liked=${liked}`)
+
+    // Prüfen, ob bereits ein Eintrag vorhanden ist
+    const { data: existing, error: existingErr } = await supabase
+      .from('matches')
+      .select('id, liked')
+      .eq('source_id', currentUser.id)
+      .eq('target_id', targetId)
+      .maybeSingle()
+
+    if (existingErr) {
+      // häufig: RLS / permission error
+      if (existingErr.code === '42501' || /permission/.test(String(existingErr).toLowerCase())) {
+        return showError('Permission error beim Prüfen bestehender Matches. Prüfe RLS-Policies in Supabase.', existingErr)
+      }
+      return showError('Fehler beim Prüfen bestehender Matches.', existingErr)
+    }
+
+    if (!existing) {
+      // INSERT
+      const { data: inserted, error: insertErr } = await supabase
+        .from('matches')
+        .insert([{
+          source_id: currentUser.id,
+          target_id: targetId,
+          liked: liked
+        }])
+        .select() // damit Supabase result.data liefert
+
+      if (insertErr) {
+        // Wenn unique constraint verletzt oder permission error, liefern wir klare Nachricht
+        console.error('[swipe] insert error:', insertErr)
+        return showError('Fehler beim Speichern (insert). Schau in die Konsole für Details.', insertErr)
+      }
+
+      console.log('[swipe] insert erfolgreich:', inserted)
+    } else {
+      // UPDATE falls schon vorhanden
+      const { data: updated, error: updateErr } = await supabase
+        .from('matches')
+        .update({ liked })
+        .eq('id', existing.id)
+        .select()
+
+      if (updateErr) {
+        console.error('[swipe] update error:', updateErr)
+        return showError('Fehler beim Aktualisieren des Swipes.', updateErr)
+      }
+      console.log('[swipe] update erfolgreich:', updated)
+    }
   } catch (err) {
-   console.error('Fehler beim Speichern des Swipes:', err.message)
+    showError('Unerwarteter Fehler beim Speichern des Swipes.', err)
   }
 }
 
-// NEU (Diese Funktion komplett einfügen)
+// Animation + Speicherung
 function animateSwipe(liked) {
-  // 1. Buttons sperren
-  acceptBtn.disabled = true;
-  rejectBtn.disabled = true;
+  acceptBtn.disabled = true
+  rejectBtn.disabled = true
 
-  // 2. CSS-Klasse für Animation hinzufügen
-  const animationClass = liked ? 'swipe-right' : 'swipe-left';
-  swipeContainer.classList.add(animationClass);
+  const animationClass = liked ? 'swipe-right' : 'swipe-left'
+  swipeContainer.classList.add(animationClass)
 
-  // 3. Warten, bis Animation fertig ist (500ms)
-  setTimeout(() => {
-    // 4. Jetzt erst speichern
-    saveSwipe(liked);
-
-    // 5. Nächstes Profil laden
-    nextProfile();
-
-    // 6. Animation zurücksetzen für die nächste Karte
-    swipeContainer.classList.add('no-transition');
-    swipeContainer.classList.remove(animationClass);
+  setTimeout(async () => {
+    await saveSwipe(liked)
+    nextProfile()
+    swipeContainer.classList.add('no-transition')
+    swipeContainer.classList.remove(animationClass)
 
     setTimeout(() => {
-      swipeContainer.classList.remove('no-transition');
-      // 7. Buttons wieder freigeben
+      swipeContainer.classList.remove('no-transition')
       if (currentIndex < profiles.length) {
-         acceptBtn.disabled = false;
-         rejectBtn.disabled = false;
+        acceptBtn.disabled = false
+        rejectBtn.disabled = false
       }
-    }, 20); 
-
-  }, 500); // Muss zur CSS-Zeit passen
+    }, 20)
+  }, 400) // Animation kurz halten
 }
 
-// Nächstes Profil
 function nextProfile() {
   currentIndex++
   showProfile()
 }
 
-// Buttons aktivieren
 acceptBtn.addEventListener('click', () => animateSwipe(true))
 rejectBtn.addEventListener('click', () => animateSwipe(false))
 
-// Start
 document.addEventListener('DOMContentLoaded', loadProfiles)
