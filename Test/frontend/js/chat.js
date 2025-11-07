@@ -1,6 +1,6 @@
 import { supabase } from './supabaseClient.js'
 
-// --- 1. DOM-Elemente holen ---
+// --- 1. DOM-Elemente ---
 const currentUser = JSON.parse(localStorage.getItem('user'))
 if (!currentUser) {
   alert('Bitte zuerst einloggen!')
@@ -8,199 +8,182 @@ if (!currentUser) {
 }
 
 // Ansichten
-const contactListView = document.getElementById('contact-list-view');
-const chatView = document.getElementById('chat-view');
+const contactListView = document.getElementById('contact-list-view')
+const chatView = document.getElementById('chat-view')
 
 // Listen-Ansicht
-const contactListContainer = document.getElementById('contact-list-container');
-const showRequestsBtn = document.getElementById('show-requests-button'); // NEU
+const contactListContainer = document.getElementById('contact-list-container')
+const showRequestsBtn = document.getElementById('show-requests-button')
 
 // Chat-Ansicht
-const chatBox = document.getElementById('chat-box');
-const messageInput = document.getElementById('chat-message');
-const sendBtn = document.getElementById('send-message');
-const backToListBtn = document.getElementById('back-to-list-button');
-const chatPartnerNameEl = document.getElementById('chat-partner-name');
+const chatBox = document.getElementById('chat-box')
+const messageInput = document.getElementById('chat-message')
+const sendBtn = document.getElementById('send-message')
+const backToListBtn = document.getElementById('back-to-list-button')
+const chatPartnerNameEl = document.getElementById('chat-partner-name')
 
 // --- 2. Globale Variablen ---
 let receivers = {} // { user_id: fullname }
-let currentReceiverId = null; // Speichert, mit wem du gerade chattest
+let currentReceiverId = null
 
-// --- 3. View-Wechsel-Logik ---
-
-// Zeigt die Chat-Ansicht für einen bestimmten User
+// --- 3. View-Wechsel ---
 function showChatView(userId, userName) {
-  currentReceiverId = userId; // Den aktiven Chat-Partner setzen
-  chatPartnerNameEl.textContent = userName; // Namen im Header anzeigen
-
-  // Ansichten umschalten
-  contactListView.classList.add('hidden');
-  chatView.classList.remove('hidden');
-
-  loadMessages(); // Nachrichten für diesen (Fake-)User laden
+  currentReceiverId = userId
+  chatPartnerNameEl.textContent = userName
+  contactListView.classList.add('hidden')
+  chatView.classList.remove('hidden')
+  loadMessages()
 }
 
-// Zeigt wieder die Kontaktliste an
 function showListView() {
-  currentReceiverId = null; // Keinen aktiven Chat-Partner
-  chatBox.innerHTML = ''; // Chat-Box leeren
-
-  // Ansichten umschalten
-  chatView.classList.add('hidden');
-  contactListView.classList.remove('hidden');
+  currentReceiverId = null
+  chatBox.innerHTML = ''
+  chatView.classList.add('hidden')
+  contactListView.classList.remove('hidden')
 }
 
-// --- 4. Event-Listener ---
+backToListBtn.addEventListener('click', showListView)
+showRequestsBtn.addEventListener('click', () => alert('Hier kommen später Chat-Anfragen hin.'))
 
-// Klick auf "Zurück"-Button im Chat
-backToListBtn.addEventListener('click', showListView);
-
-// Klick auf das NEUE Brief-Icon
-showRequestsBtn.addEventListener('click', () => {
-  alert('Hier würden die Anfragen angezeigt.');
-  // Später kannst du hier eine 'showRequestsView()'-Funktion aufrufen
-});
-
-// Klick auf "Senden"
+// --- 4. Nachricht senden ---
 sendBtn.addEventListener('click', async () => {
-  const receiverId = currentReceiverId; 
   const content = messageInput.value.trim()
-  if (!receiverId || !content) return
+  if (!currentReceiverId || !content) return
 
-  // HINWEIS: Dies sendet ECHTE Nachrichten an Supabase,
-  // auch wenn der User 'fake-user-1' heißt.
   const { error } = await supabase
-   .from('messages')
-   .insert([{ sender_id: currentUser.id, receiver_id: receiverId, content }])
+    .from('messages')
+    .insert([
+      {
+        sender_id: currentUser.id,
+        receivers_id: currentReceiverId, // <- dein Tabellenname
+        content
+      }
+    ])
 
-  if (error) {
-    console.error('Fehler beim Senden:', error)
-  } else {
-    messageInput.value = ''
-  }
-});
+  if (error) {
+    console.error('Fehler beim Senden:', error)
+  } else {
+    messageInput.value = ''
+  }
+})
 
+// --- 5. Echte Matches laden ---
+async function loadMatches() {
+  contactListContainer.innerHTML = '<p>Lade deine Chats...</p>'
 
-// --- 5. Lade-Funktionen ---
+  // 1️⃣ Lade alle Matches, bei denen currentUser beteiligt ist
+  const { data: matches, error: matchError } = await supabase
+    .from('matches')
+    .select('*')
+    .or(`source_id.eq.${currentUser.id},target_id.eq.${currentUser.id}`)
+    .eq('liked', true)
 
-/**
- * NEU: Lade FAKE-Matches statt echter
- * Das ist die Funktion, die deine 2 Kontakte anzeigt.
- */
-function loadFakeMatches() {
-  console.log("Lade FAKE-Kontakte zum Testen...");
+  if (matchError) {
+    console.error('Fehler beim Laden der Matches:', matchError)
+    contactListContainer.innerHTML = '<p>Fehler beim Laden.</p>'
+    return
+  }
 
-  // 1. Unsere Fake-Kontakte
-  const fakeProfiles = [
-    { id: 'fake-user-1', name: 'Alex' },
-    { id: 'fake-user-2', name: 'Lukas' }
-  ];
+  if (!matches || matches.length === 0) {
+    contactListContainer.innerHTML = '<p>Keine aktiven Chats.</p>'
+    return
+  }
 
-  // 2. 'receivers'-Objekt füllen (wichtig für Chat-Anzeige)
-  receivers = {};
-  fakeProfiles.forEach(profile => {
-    receivers[profile.id] = profile.name;
-  });
+  // 2️⃣ Hole Profilinfos der Chatpartner
+  const partnerIds = matches.map(m =>
+    m.source_id === currentUser.id ? m.target_id : m.source_id
+  )
 
-  // 3. HTML für die Kontaktliste leeren
-  contactListContainer.innerHTML = '';
+  const { data: profiles, error: profileError } = await supabase
+    .from('profiles')
+    .select('user_id, fullname')
+    .in('user_id', partnerIds)
 
-  // 4. HTML für jeden Fake-Kontakt erstellen
-  fakeProfiles.forEach(profile => {
-    const item = document.createElement('div');
-    item.className = 'contact-item';
-    item.dataset.userId = profile.id; // WICHTIG: ID speichern
+  if (profileError) {
+    console.error('Fehler beim Laden der Profile:', profileError)
+    return
+  }
 
+  // 3️⃣ Kontaktliste aufbauen
+  receivers = {}
+  contactListContainer.innerHTML = ''
+  profiles.forEach(profile => {
+    receivers[profile.user_id] = profile.fullname
+
+    const item = document.createElement('div')
+    item.className = 'contact-item'
+    item.dataset.userId = profile.user_id
     item.innerHTML = `
       <img src="images/icon3.png" alt="Profilbild" class="contact-photo">
       <div class="contact-info">
-        <span class="contact-name">${profile.name}</span>
-        <span class="contact-preview">Klicke, um den Chat zu öffnen...</span>
+        <span class="contact-name">${profile.fullname}</span>
+        <span class="contact-preview">Klicke, um zu chatten...</span>
       </div>
-    `;
-    
-    // 5. Klick-Listener hinzufügen -> Dieser öffnet den Chat!
-    item.addEventListener('click', () => {
-      showChatView(profile.id, profile.name);
-    });
-
-    contactListContainer.appendChild(item);
-  });
-  
-  sendBtn.disabled = false;
+    `
+    item.addEventListener('click', () => showChatView(profile.user_id, profile.fullname))
+    contactListContainer.appendChild(item)
+  })
 }
 
-/**
- * Diese Funktion lädt ECHTE Nachrichten von Supabase.
- * Für unsere Fake-User wird sie einfach 0 Nachrichten finden,
- * was perfekt für den Test ist.
- */
+// --- 6. Nachrichten laden ---
 async function loadMessages() {
-  const receiverId = currentReceiverId; 
-  if (!receiverId) return;
+  const receiverId = currentReceiverId
+  if (!receiverId) return
 
-  console.log(`Lade Nachrichten für User: ${receiverId}`);
-  chatBox.innerHTML = '<p>Lade Nachrichten...</p>'; // Lade-Anzeige
+  chatBox.innerHTML = '<p>Lade Nachrichten...</p>'
 
   const { data, error } = await supabase
-   .from('messages')
-   .select('*')
-   .or(`and(sender_id.eq.${currentUser.id},receiver_id.eq.${receiverId}),and(sender_id.eq.${receiverId},receiver_id.eq.${currentUser.id})`)
-   .order('created_at', { ascending: true })
+    .from('messages')
+    .select('*')
+    .or(
+      `and(sender_id.eq.${currentUser.id},receivers_id.eq.${receiverId}),
+       and(sender_id.eq.${receiverId},receivers_id.eq.${currentUser.id})`
+    )
+    .order('created_at', { ascending: true })
 
   if (error) {
-   console.error('Fehler beim Laden der Nachrichten:', error)
-    chatBox.innerHTML = '<p>Fehler beim Laden der Nachrichten.</p>';
-   return
+    console.error('Fehler beim Laden der Nachrichten:', error)
+    chatBox.innerHTML = '<p>Fehler beim Laden der Nachrichten.</p>'
+    return
   }
 
-  chatBox.innerHTML = '' // Lade-Anzeige entfernen
+  chatBox.innerHTML = ''
   if (data.length === 0) {
-    chatBox.innerHTML = '<p>Noch keine Nachrichten. Sag "Hallo"!</p>';
+    chatBox.innerHTML = '<p>Noch keine Nachrichten. Sag "Hallo"!</p>'
   }
 
   data.forEach(msg => {
-   const senderName = msg.sender_id === currentUser.id ? 'Du' : receivers[msg.sender_id] || 'User'
-   const msgEl = document.createElement('p')
-   msgEl.innerHTML = `<b>${senderName}:</b> ${msg.content}`
-   chatBox.appendChild(msgEl)
+    const senderName = msg.sender_id === currentUser.id ? 'Du' : receivers[msg.sender_id] || 'User'
+    const msgEl = document.createElement('p')
+    msgEl.innerHTML = `<b>${senderName}:</b> ${msg.content}`
+    chatBox.appendChild(msgEl)
   })
-
   chatBox.scrollTop = chatBox.scrollHeight
 }
 
-// --- 6. Realtime-Updates (unverändert) ---
+// --- 7. Realtime-Listener ---
 supabase
   .channel('realtime-messages')
-  .on(
-   'postgres_changes',
-   { event: 'INSERT', schema: 'public', table: 'messages' },
-    payload => {
-     const msg = payload.new
-     const receiverId = currentReceiverId; 
-     if (!receiverId) return
+  .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, payload => {
+    const msg = payload.new
+    if (!currentReceiverId) return
 
-     if (
-      (msg.sender_id === currentUser.id && msg.receiver_id === receiverId) ||
-      (msg.sender_id === receiverId && msg.receiver_id === currentUser.id)
-     ) {
-        // Wenn die "Noch keine Nachrichten"-Info da ist, entferne sie
-        const noMsgEl = chatBox.querySelector('p');
-        if (noMsgEl && noMsgEl.textContent.startsWith('Noch keine Nachrichten')) {
-          chatBox.innerHTML = '';
-        }
-
-        // Neue Nachricht anhängen
-       const senderName = msg.sender_id === currentUser.id ? 'Du' : receivers[msg.sender_id] || 'User'
-       const msgEl = document.createElement('p')
-       msgEl.innerHTML = `<b>${senderName}:</b> ${msg.content}`
-        chatBox.appendChild(msgEl)
-       chatBox.scrollTop = chatBox.scrollHeight
+    if (
+      (msg.sender_id === currentUser.id && msg.receivers_id === currentReceiverId) ||
+      (msg.sender_id === currentReceiverId && msg.receivers_id === currentUser.id)
+    ) {
+      const noMsgEl = chatBox.querySelector('p')
+      if (noMsgEl && noMsgEl.textContent.startsWith('Noch keine Nachrichten')) {
+        chatBox.innerHTML = ''
+      }
+      const senderName = msg.sender_id === currentUser.id ? 'Du' : receivers[msg.sender_id] || 'User'
+      const msgEl = document.createElement('p')
+      msgEl.innerHTML = `<b>${senderName}:</b> ${msg.content}`
+      chatBox.appendChild(msgEl)
+      chatBox.scrollTop = chatBox.scrollHeight
     }
-   }
-  )
+  })
   .subscribe()
 
-
-
-loadFakeMatches();
+// --- 8. Start ---
+loadMatches()
