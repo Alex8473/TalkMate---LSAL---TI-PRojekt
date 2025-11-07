@@ -167,14 +167,15 @@
     justify-content: center; /* H1 zentrieren */
     align-items: center;
     border-bottom: 1px solid #d4d0b9;
-    margin-bottom: 11px;
+    margin-bottom: 10px;
     position: relative; /* Wichtig für den Zurück-Button */
 }
 
 .filter-header h1 {
-    margin: 0; 
-    font-size: 1.5rem; /* Ggf. Schriftgröße anpassen */
-    padding: 5px 0;
+  font-family: "DeineWunschSchriftart", Arial, sans-serif; 
+  margin: 0; 
+  font-size: 1.3rem; /* <-- Kleiner (war z.B. 1.5rem) */
+  padding: 50px 0 10px 0; /* <-- Oben mehr Abstand (14px) als unten (10px) */
 }
 
 
