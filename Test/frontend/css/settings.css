@@ -167,37 +167,32 @@
     justify-content: center; /* H1 zentrieren */
     align-items: center;
     border-bottom: 1px solid #d4d0b9;
-    padding-bottom: 10px;
-    margin-bottom: 15px;
+    margin-bottom: 11px;
     position: relative; /* Wichtig für den Zurück-Button */
 }
 
 .filter-header h1 {
     margin: 0; 
     font-size: 1.5rem; /* Ggf. Schriftgröße anpassen */
+    padding: 5px 0;
 }
 
-/* Stile für .close-btn können entfernt werden */
-/* .filter-header .close-btn { ... } */
 
-
-/* NEUE STILE FÜR DEN ZURÜCK-BUTTON */
-.back-btn {
-    position: absolute;
-    left: 0; /* Ganz links im Header */
-    top: 50%;
-    transform: translateY(-50%); /* Vertikal zentrieren */
-    
-    background: none;
+.register-button {
+    width: 100%;
+    padding: 12px;
+    background: #7a8471; /* Solide Hintergrundfarbe (deine Akzentfarbe) */
+    color: #ffffff; /* Weißer Text für Kontrast */
     border: none;
-    font-size: 2.2rem; /* Macht das '<' schön groß */
-    font-weight: 300;
-    color: #4a5442;
+    border-radius: 20px;
+    font-size: 15px;
+    font-weight: 600; /* Etwas dicker */
     cursor: pointer;
-    padding: 0 15px; /* Etwas Klickfläche geben */
-    line-height: 1;
+    transition: all 0.3s ease;
+    margin-top: 20px; /* Abstand zu den Hobbys */
+    text-align: center;
 }
 
-.back-btn:hover {
-    color: #000;
+.register-button:hover {
+    background: #4a5442; /* Dunklere Farbe beim Hover */
 }
