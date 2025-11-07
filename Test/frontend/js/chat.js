@@ -136,54 +136,54 @@ function loadFakeMatches() {
  * was perfekt für den Test ist.
  */
 async function loadMessages() {
-  const receiverId = currentReceiverId; 
-  if (!receiverId) return;
+  const receiverId = currentReceiverId; 
+  if (!receiverId) return;
 
   console.log(`Lade Nachrichten für User: ${receiverId}`);
   chatBox.innerHTML = '<p>Lade Nachrichten...</p>'; // Lade-Anzeige
 
-  const { data, error } = await supabase
-    .from('messages')
-    .select('*')
-    .or(`and(sender_id.eq.${currentUser.id},receiver_id.eq.${receiverId}),and(sender_id.eq.${receiverId},receiver_id.eq.${currentUser.id})`)
-    .order('created_at', { ascending: true })
+  const { data, error } = await supabase
+   .from('messages')
+   .select('*')
+   .or(`and(sender_id.eq.${currentUser.id},receiver_id.eq.${receiverId}),and(sender_id.eq.${receiverId},receiver_id.eq.${currentUser.id})`)
+   .order('created_at', { ascending: true })
 
-  if (error) {
-    console.error('Fehler beim Laden der Nachrichten:', error)
+  if (error) {
+   console.error('Fehler beim Laden der Nachrichten:', error)
     chatBox.innerHTML = '<p>Fehler beim Laden der Nachrichten.</p>';
-    return
-  }
+   return
+  }
 
-  chatBox.innerHTML = '' // Lade-Anzeige entfernen
+  chatBox.innerHTML = '' // Lade-Anzeige entfernen
   if (data.length === 0) {
     chatBox.innerHTML = '<p>Noch keine Nachrichten. Sag "Hallo"!</p>';
   }
 
-  data.forEach(msg => {
-    const senderName = msg.sender_id === currentUser.id ? 'Du' : receivers[msg.sender_id] || 'User'
-    const msgEl = document.createElement('p')
-    msgEl.innerHTML = `<b>${senderName}:</b> ${msg.content}`
-    chatBox.appendChild(msgEl)
-  })
+  data.forEach(msg => {
+   const senderName = msg.sender_id === currentUser.id ? 'Du' : receivers[msg.sender_id] || 'User'
+   const msgEl = document.createElement('p')
+   msgEl.innerHTML = `<b>${senderName}:</b> ${msg.content}`
+   chatBox.appendChild(msgEl)
+  })
 
-  chatBox.scrollTop = chatBox.scrollHeight
+  chatBox.scrollTop = chatBox.scrollHeight
 }
 
 // --- 6. Realtime-Updates (unverändert) ---
 supabase
-  .channel('realtime-messages')
-  .on(
-    'postgres_changes',
-    { event: 'INSERT', schema: 'public', table: 'messages' },
-    payload => {
-      const msg = payload.new
-      const receiverId = currentReceiverId; 
-      if (!receiverId) return
+  .channel('realtime-messages')
+  .on(
+   'postgres_changes',
+   { event: 'INSERT', schema: 'public', table: 'messages' },
+    payload => {
+     const msg = payload.new
+     const receiverId = currentReceiverId; 
+     if (!receiverId) return
 
-      if (
-        (msg.sender_id === currentUser.id && msg.receiver_id === receiverId) ||
-        (msg.sender_id === receiverId && msg.receiver_id === currentUser.id)
-      ) {
+     if (
+      (msg.sender_id === currentUser.id && msg.receiver_id === receiverId) ||
+      (msg.sender_id === receiverId && msg.receiver_id === currentUser.id)
+     ) {
         // Wenn die "Noch keine Nachrichten"-Info da ist, entferne sie
         const noMsgEl = chatBox.querySelector('p');
         if (noMsgEl && noMsgEl.textContent.startsWith('Noch keine Nachrichten')) {
@@ -191,11 +191,11 @@ supabase
         }
 
         // Neue Nachricht anhängen
-        const senderName = msg.sender_id === currentUser.id ? 'Du' : receivers[msg.sender_id] || 'User'
-        const msgEl = document.createElement('p')
-        msgEl.innerHTML = `<b>${senderName}:</b> ${msg.content}`
+       const senderName = msg.sender_id === currentUser.id ? 'Du' : receivers[msg.sender_id] || 'User'
+       const msgEl = document.createElement('p')
+       msgEl.innerHTML = `<b>${senderName}:</b> ${msg.content}`
         chatBox.appendChild(msgEl)
-        chatBox.scrollTop = chatBox.scrollHeight
+       chatBox.scrollTop = chatBox.scrollHeight
     }
    }
   )
