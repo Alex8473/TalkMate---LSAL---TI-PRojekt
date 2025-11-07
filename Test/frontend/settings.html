@@ -16,6 +16,56 @@
             
             <button class="settings-button">Passwort ändern</button>
         </div>
+        <div class="profile-section">
+            <div class="section-title">Match-Filter</div>
+            <button id="toggleFilterBtn" class="settings-button" type="button">Filter anpassen</button>
+        </div>
+
+        <form class="register-form" id="register-form" style="display:none;">
+            <div class="profile-section">
+                <div class="section-title">Welche Sprache willst du lernen?</div>
+                <div class="language-selector">
+                    <div class="language-option selected" data-lang="deutsch">Deutsch</div>
+                    <div class="language-option" data-lang="englisch">Englisch</div>
+                    <div class="language-option" data-lang="französisch">Französisch</div>
+                </div>
+            </div>
+            
+            <div class="hobby-section">
+                <div class="section-title">Interessen & Hobbys</div>
+                <div class="hobby-grid">
+                    <div class="hobby-item">
+                        <input type="checkbox" id="travel" name="hobbies" value="Reisen" checked>
+                        <label for="travel">Reisen</label>
+                    </div>
+                    <div class="hobby-item">
+                        <input type="checkbox" id="music" name="hobbies" value="Musik">
+                        <label for="music">Musik</label>
+                    </div>
+                    <div class="hobby-item">
+                        <input type="checkbox" id="sports" name="hobbies" value="Sport">
+                        <label for="sports">Sport</label>
+                    </div>
+                    <div class="hobby-item">
+                        <input type="checkbox" id="cooking" name="hobbies" value="Kochen" checked>
+                        <label for="cooking">Kochen</label>
+                    </div>
+                    <div class="hobby-item">
+                        <input type="checkbox" id="reading" name="hobbies" value="Lesen">
+                        <label for="reading">Lesen</label>
+                    </div>
+                    <div class="hobby-item">
+                        <input type="checkbox" id="art" name="hobbies" value="Kunst">
+                        <label for="art">Kunst</label>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="register-button">Filter speichern</button>
+
+        </form>
+
+    
 
         <div class="profile-section">
             <div class="section-title">Benachrichtigungen</div>
@@ -38,8 +88,6 @@
         </div>
 
         <div class="profile-section">
-            <div class="section-title">App</div>
-            
             <button class="update-button danger-button">Abmelden</button>
             <button class="update-button delete-button">Konto löschen</button>
         </div>
