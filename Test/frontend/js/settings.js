@@ -32,10 +32,6 @@ document.addEventListener('DOMContentLoaded', function() {
         showFilterPage(true);
     });
 
-    // "Zurück" (<)-Button klickt
-    backBtn.addEventListener('click', function() {
-        showFilterPage(false);
-    });
     
     // ENTFERNT: Event-Listener für closeBtn
 
