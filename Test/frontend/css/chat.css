@@ -185,9 +185,8 @@ h1 {
   display: flex;
   justify-content: space-between; /* "Chats" links, Icon rechts */
   align-items: center;
-  padding: 15px 30spx; /* Abstand wie bei H1 vorher */
+  padding: 15px 30px; /* Abstand wie bei H1 vorher */
   flex-shrink: 0; /* Verhindert Schrumpfen */
-  border-bottom: 1px solid #e0e0e0;
 }
 
 /* H1-Standard-Abstände entfernen, da der Wrapper das macht */
