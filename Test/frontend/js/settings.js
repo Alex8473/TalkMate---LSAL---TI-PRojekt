@@ -2,19 +2,19 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     
-    // 1. Alle Elemente holen
+    // Alle Elemente holen
     var settingsPage = document.getElementById('settings-container');
     var filterPage = document.getElementById('filter-container');
     
     var openBtn = document.getElementById('openFilterBtn');
     
-    // NEUER Knopf: backToSettingsBtn
+    // Knopf: backToSettingsBtn
     var backBtn = document.getElementById('backToSettingsBtn'); 
-    // ENTFERNT: var closeBtn = document.getElementById('closeFilterBtn');
+   
     
     var filterForm = document.getElementById('filter-form');
 
-    // 2. Funktion zum Umschalten (unverändert)
+    // Funktion zum Umschalten (unverändert)
     function showFilterPage(show) {
         if (show) {
             settingsPage.style.display = 'none';
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // 3. Event-Listener
+    // Event-Listener
     
     // "Filter anpassen"-Button klickt
     openBtn.addEventListener('click', function() {
@@ -33,7 +33,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     
-    // ENTFERNT: Event-Listener für closeBtn
 
     // "Filter speichern"-Button klickt
     filterForm.addEventListener('submit', function(event) {
@@ -42,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
         showFilterPage(false); // Zurück zur Einstellungs-Seite
     });
 
-    // 4. Logik für die Sprachauswahl (unverändert)
+    // Logik für die Sprachauswahl 
     var languageOptions = document.querySelectorAll('.language-option');
     
     languageOptions.forEach(function(option) {
