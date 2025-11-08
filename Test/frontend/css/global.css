@@ -25,7 +25,7 @@ body {
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  overflow: hidden; /* Verhindert Überlaufen */
+  overflow: hidden; 
   position: relative;
   box-sizing: border-box;
   padding: 20px 20px 90px 20px;
@@ -85,7 +85,6 @@ h1 {
   font-weight: 600;
 }
 
-/* Standard-Suchleiste (für Formulare) */
 .searchbar {
   position: relative;
   margin-bottom: 15px;
