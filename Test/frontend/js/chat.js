@@ -161,7 +161,7 @@ async function loadMessages() {
   chatBox.scrollTop = chatBox.scrollHeight
 }
 
-// --- 7. Realtime-Listener ---
+// Realtime-Listener 
 supabase
   .channel('realtime-messages')
   .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, payload => {
@@ -185,5 +185,5 @@ supabase
   })
   .subscribe()
 
-// --- 8. Start ---
+// Start 
 loadMatches()
