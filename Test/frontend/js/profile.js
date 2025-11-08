@@ -84,7 +84,7 @@ profileForm.addEventListener('submit', async (e) => {
     user_id: currentUser.id,
     fullname: fullnameInput.value,
     username: usernameInput.value,
-    age: 0, // Standardwert, da kein Eingabefeld
+    age: 0, 
     native_language: nativeLanguage,
     learning_language: learningLanguage,
     interests: getSelectedHobbies()
