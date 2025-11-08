@@ -2,21 +2,21 @@
 
 /* Überschreibe das globale App-Layout für die Chat-Ansicht */
 .app-container {
-  padding: 0; /* Entferne globales Padding */
-  overflow-y: hidden; /* Verhindere Scrollen des Hauptcontainers */
+  padding: 0; 
+  overflow-y: hidden; 
   display: flex;
-  flex-direction: column; /* Stapele Inhalte (H1, ChatBox, Input, Nav) */
+  flex-direction: column; 
 }
 
 h1 {
-  padding: 20px; /* Eigenes Padding für H1 */
+  padding: 20px; 
   margin-bottom: 0;
-  flex-shrink: 0; /* Verhindere, dass H1 schrumpft */
+  flex-shrink: 0; 
 }
 
 .chat-box {
-  flex-grow: 1; /* Füllt den gesamten verfügbaren Platz */
-  overflow-y: auto; /* Nur die Chat-Box soll scrollen */
+  flex-grow: 1; 
+  overflow-y: auto; 
   background-color: #f8f9f7;
   padding: 15px;
   border-top: 1px solid #e0e0e0;
@@ -27,7 +27,7 @@ h1 {
   display: flex;
   padding: 15px 20px;
   background-color: #afb59d;
-  flex-shrink: 0; /* Verhindere Schrumpfen */
+  flex-shrink: 0; 
 }
 
 #chat-message {
@@ -61,49 +61,42 @@ h1 {
   background: #6a7461;
 }
 
-/* Überschreibe die Icon-Bar, damit sie nicht absolut positioniert ist */
+
 .icon-bar {
-  position: relative; /* Nicht mehr 'absolute' */
-  flex-shrink: 0; /* Verhindere Schrumpfen */
+  position: relative; 
+  flex-shrink: 0; 
 }
 
-/* chat.css (Ergänzungen) */
 
-/* Hilfsklasse zum Ausblenden */
+
 .hidden {
     display: none !important;
 }
 
-/* Stelle sicher, dass die Ansichten den Platz füllen.
-   Sie müssen wie deine H1, chat-box etc. als Flex-Kinder 
-   im app-container funktionieren.
-*/
+
 #contact-list-view,
 #chat-view {
     display: flex;
     flex-direction: column;
-    /* Nimmt den Platz ein, den vorher h1 + chat-box eingenommen haben */
     flex-grow: 1; 
-    overflow: hidden; /* Verhindert doppelte Scrollbars */
+    overflow: hidden; 
 }
 
-/* --- 1. Stile für die neue Kontaktliste --- */
 
-/* Titel-Styling (hast du schon, ggf. anpassen) */
 #contact-list-view h1 {
     padding: 20px;
     margin-bottom: 0;
     flex-shrink: 0;
 }
 
-/* Container für die Kontakt-Items */
+
 .contact-list {
-    flex-grow: 1; /* Füllt den Platz unter dem Titel */
-    overflow-y: auto; /* Macht die Liste scrollbar */
+    flex-grow: 1; 
+    overflow-y: auto; 
     padding: 0 10px;
 }
 
-/* Das "blockartige" Kontakt-Item */
+
 .contact-item {
     display: flex;
     align-items: center;
@@ -130,7 +123,7 @@ h1 {
 .contact-info {
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* Verhindert, dass Text ausbricht */
+    overflow: hidden; 
 }
 
 .contact-name {
@@ -142,20 +135,17 @@ h1 {
 .contact-preview {
     font-size: 14px;
     color: #777;
-    white-space: nowrap; /* Verhindert Zeilenumbruch */
+    white-space: nowrap; 
     overflow: hidden;
-    text-overflow: ellipsis; /* ... bei zu langem Text */
+    text-overflow: ellipsis; 
 }
 
 
-/* --- 2. Stile für die neue Chat-Ansicht --- */
 
-/* Neuer Header innerhalb der Chat-Ansicht */
 .chat-header {
     display: flex;
     align-items: center;
     padding: 10px 15px;
-    /* Nimmt die Farbe deines Input-Bereichs auf */
     background-color: #afb59d; 
     flex-shrink: 0;
     border-bottom: 1px solid #9a9a9a;
@@ -179,41 +169,40 @@ h1 {
     color: #f8f9f7;
 }
 
-/* --- 3. Stile für Kontaktlisten-Header (NEU) --- */
+
 
 .contact-list-header {
   display: flex;
-  justify-content: space-between; /* "Chats" links, Icon rechts */
+  justify-content: space-between; 
   align-items: center;
   padding: 50px 30px 15px 30px;
-  flex-shrink: 0; /* Verhindert Schrumpfen */
+  flex-shrink: 0; 
 }
 
-/* H1-Standard-Abstände entfernen, da der Wrapper das macht */
 .contact-list-header h1 {
   padding: 0;
   margin: 0;
-  font-size: 28px; /* Oder deine gewünschte Größe */
+  font-size: 28px; 
 }
 
-/* Stil für den neuen Icon-Button */
+
 .icon-button {
   background: none;
   border: none;
   cursor: pointer;
   padding: 10px;
   border-radius: 80%;
-  display: flex; /* Zentriert das Bild im Button */
+  display: flex; 
   align-items: center;
   justify-content: center;
 }
 
 .icon-button img {
-  width: 40px;  /* Passe die Icon-Größe an */
+  width: 40px;  
   height: 50px;
 }
 
 .icon-button:hover {
-  background-color: #e0e0e0; /* Leichter Hover-Effekt */
+  background-color: #e0e0e0; 
 }
 
