@@ -160,40 +160,39 @@
   font-weight: 600;
 }
 
-/* --- ANGEPASSTE STILE FÜR FILTER-SEITE --- */
 
 .filter-header {
     display: flex;
-    justify-content: center; /* H1 zentrieren */
+    justify-content: center; 
     align-items: center;
     border-bottom: 1px solid #d4d0b9;
     margin-bottom: 10px;
-    position: relative; /* Wichtig für den Zurück-Button */
+    position: relative; 
 }
 
 .filter-header h1 {
   font-family: "DeineWunschSchriftart", Arial, sans-serif; 
   margin: 0; 
-  font-size: 1.3rem; /* <-- Kleiner (war z.B. 1.5rem) */
-  padding: 50px 0 10px 0; /* <-- Oben mehr Abstand (14px) als unten (10px) */
+  font-size: 1.3rem; 
+  padding: 50px 0 10px 0; 
 }
 
 
 .register-button {
     width: 100%;
     padding: 12px;
-    background: #7a8471; /* Solide Hintergrundfarbe (deine Akzentfarbe) */
-    color: #ffffff; /* Weißer Text für Kontrast */
+    background: #7a8471; 
+    color: #ffffff; 
     border: none;
     border-radius: 20px;
     font-size: 15px;
-    font-weight: 600; /* Etwas dicker */
+    font-weight: 600; 
     cursor: pointer;
     transition: all 0.3s ease;
-    margin-top: 20px; /* Abstand zu den Hobbys */
+    margin-top: 20px; 
     text-align: center;
 }
 
 .register-button:hover {
-    background: #4a5442; /* Dunklere Farbe beim Hover */
+    background: #4a5442; 
 }
