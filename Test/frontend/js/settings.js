@@ -1,5 +1,3 @@
-// Inhalt für js/settings.js
-
 document.addEventListener('DOMContentLoaded', function() {
     
     // Alle Elemente holen

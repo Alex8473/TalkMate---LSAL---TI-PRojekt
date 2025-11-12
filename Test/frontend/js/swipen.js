@@ -136,7 +136,7 @@ async function saveSwipe(liked) {
       .maybeSingle()
 
     if (existingErr) {
-      // häufig: RLS / permission error
+      
       if (existingErr.code === '42501' || /permission/.test(String(existingErr).toLowerCase())) {
         return showError('Permission error beim Prüfen bestehender Matches. Prüfe RLS-Policies in Supabase.', existingErr)
       }
