@@ -4,6 +4,7 @@ const loginForm = document.getElementById('login-form')
 const registerForm = document.getElementById('register-form')
 const showRegisterBtn = document.getElementById('show-register-btn')
 const backToLoginBtn = document.getElementById('back-to-login-btn')
+const languageOptions = document.querySelectorAll('.language-option');
 
 // Zeige Registrierungsformular
 showRegisterBtn.addEventListener('click', () => {
@@ -60,3 +61,16 @@ loginForm.addEventListener('submit', async (e) => {
     window.location.href = 'profile.html'
   }
 })
+
+languageOptions.forEach((option) => {
+    option.addEventListener('click', () => {
+      const parentContainer = option.parentElement;
+      const optionsInGroup = parentContainer.querySelectorAll('.language-option');
+      optionsInGroup.forEach((sibling) => {
+        sibling.classList.remove('selected');
+      });
+
+      option.classList.add('selected');
+    });
+  });
+
