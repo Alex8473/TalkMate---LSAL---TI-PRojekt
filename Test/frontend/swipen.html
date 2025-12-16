@@ -9,31 +9,37 @@
 </head>
 <body>
   <div class="app-container">
+    <!-- Suchleiste mit Icon -->
     <div class="searchbar">
       <img src="images/searchIcon.png" alt="Search Icon" class="searchIcon" />
       <input type="text" class="searchInput" placeholder="Search..." />
     </div>
 
+    <!-- Swipe-Karte für Profile -->
     <div class="profile-Swipe" id="profile-swipe">
-        <div class="profile-info-overlay">
-
+      <!-- Overlay mit Profilinformationen über dem Hintergrundbild -->
+      <div class="profile-info-overlay">
+        <!-- Name und Alter -->
         <div class="profile-name-age">
           Lade Profil...
         </div>
  
+        <!-- Beschreibung -->
         <div class="profile-description"></div>
  
+        <!-- Hobbys als Tags -->
         <div class="profile-hobbies-list"></div>
 
       </div>
- </div>
+    </div>
 
-
+    <!-- Action-Buttons für Ablehnen und Annehmen -->
     <div class="profile-actions">
       <button id="reject-btn">Ablehnen</button>
       <button id="accept-btn">Annehmen</button>
     </div>
 
+    <!-- Navigationsleiste -->
     <div class="icon-bar">
       <div class="icon"><a href="profile.html"><img src="images/icon3.png" alt="Profile Icon" /></a></div>
       <div class="icon"><a href="swipen.html"><img src="images/icon4.png" alt="Swipe Icon" /></a></div>
@@ -42,7 +48,7 @@
     </div>
   </div>
 
- <script type="module" src="js/supabaseClient.js"></script>
- <script type="module" src="js/swipen.js"></script>
+  <script type="module" src="js/supabaseClient.js"></script>
+  <script type="module" src="js/swipen.js"></script>
 </body>
 </html>

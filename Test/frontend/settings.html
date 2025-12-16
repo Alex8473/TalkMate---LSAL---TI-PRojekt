@@ -6,22 +6,26 @@
     <title>Settings</title>
     <link rel="stylesheet" href="css/global.css" />
     <link rel="stylesheet" href="css/settings.css" />
-    </head>
+</head>
 <body>
     
+    <!-- Haupt-Einstellungsansicht -->
     <div class="app-container" id="settings-container">
         <h1>Einstellungen</h1>
 
+        <!-- Konto-Einstellungen -->
         <div class="profile-section">
             <div class="section-title">Konto-Einstellungen</div>
             <button class="settings-button">Passwort ändern</button>
         </div>
 
+        <!-- Match-Filter öffnen -->
         <div class="profile-section">
             <div class="section-title">Match-Filter</div>
             <button id="openFilterBtn" class="settings-button" type="button">Filter anpassen</button>
         </div>
 
+        <!-- Benachrichtigungseinstellungen mit Toggle-Switches -->
         <div class="profile-section">
             <div class="section-title">Benachrichtigungen</div>
             <div class="settings-toggle-item">
@@ -40,33 +44,41 @@
             </div>
         </div>
 
+        <!-- Kritische Aktionen -->
         <div class="profile-section">
             <button class="update-button danger-button">Abmelden</button>
             <button class="update-button delete-button">Konto löschen</button>
         </div>
     
+        <!-- Navigationsleiste -->
         <div class="icon-bar">
             <div class="icon"><a href="profile.html"><img src="images/icon3.png" alt="Profile Icon" /></a></div>
             <div class="icon"><a href="swipen.html"><img src="images/icon4.png" alt="Swipen Icon" /></a></div>
             <div class="icon"><a href="chat.html"><img src="images/icon2.png" alt="Chat Icon" /></a></div>
             <div class="icon"><a href="settings.html"><img src="images/icon1.png" alt="Settings Icon" /></a></div>
         </div>
-    </div> <div class="app-container" id="filter-container" style="display: none;">
+    </div>
+
+    <!-- Filter-Anpassungsansicht, standardmäßig versteckt -->
+    <div class="app-container" id="filter-container" style="display: none;">
         
         <div class="filter-header">
             <h1>Filter Anpassung</h1>
         </div>
 
         <form class="register-form" id="filter-form">
+            <!-- Lernsprache für Matching -->
             <div class="profile-section">
                 <div class="section-title">Welche Sprache willst du lernen?</div>
                 <div class="language-selector">
+                    <!-- data-lang Attribute für JavaScript-Zugriff -->
                     <div class="language-option selected" data-lang="deutsch">Deutsch</div>
                     <div class="language-option" data-lang="englisch">Englisch</div>
                     <div class="language-option" data-lang="französisch">Französisch</div>
                 </div>
             </div>
         
+            <!-- Gemeinsame Hobbys für Matching -->
             <div class="hobby-section">
                 <div class="section-title">Welche Interessen & Hobbys wollt ihr gemeinsam haben?</div>
                 <div class="hobby-grid">
@@ -99,6 +111,8 @@
 
             <button type="submit" class="register-button">Filter speichern</button>
         </form>
-    </div> <script src="js/settings.js"></script> 
+    </div>
+
+    <script src="js/settings.js"></script> 
 </body>
 </html>

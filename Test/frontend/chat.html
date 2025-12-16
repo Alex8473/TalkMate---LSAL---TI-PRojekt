@@ -10,33 +10,40 @@
 <body>
   <div class="app-container">
 
-    
+    <!-- Kontaktliste-Ansicht -->
     <div id="contact-list-view">
+      <!-- Header mit Titel und Anfragen-Button -->
       <div class="contact-list-header">
         <h1>Chats</h1>
+        <!-- Button zum Anzeigen von Chat-Anfragen -->
         <button id="show-requests-button" class="icon-button">
           <img src="images/Brief-Transparent-Icon.png" alt="Anfragen" />
         </button>
       </div>
 
+      <!-- Container für die Liste der Kontakte, wird per JS gefüllt -->
       <div class="contact-list" id="contact-list-container"></div>
     </div>
 
+    <!-- Chat-Ansicht, standardmäßig versteckt -->
     <div id="chat-view" class="hidden">
+      <!-- Chat-Header mit Zurück-Button und Partnername -->
       <div class="chat-header">
         <button id="back-to-list-button" class="back-btn">&larr;</button>
         <h2 id="chat-partner-name">Chatpartner</h2>
       </div>
 
+      <!-- Chatbox für Nachrichten -->
       <div class="chat-box" id="chat-box"></div>
 
+      <!-- Eingabebereich für neue Nachrichten -->
       <div class="chat-input">
         <input type="text" id="chat-message" placeholder="Nachricht schreiben..." />
         <button id="send-message">Senden</button>
       </div>
     </div>
 
- 
+    <!-- Navigationsleiste -->
     <div class="icon-bar">
       <div class="icon"><a href="profile.html"><img src="images/icon3.png" alt="Profil Icon" /></a></div>
       <div class="icon"><a href="swipen.html"><img src="images/icon4.png" alt="Swipe Icon" /></a></div>
@@ -46,7 +53,7 @@
 
   </div>
 
-  
+  <!-- Supabase-Client wird zuerst geladen -->
   <script type="module" src="js/supabaseClient.js"></script>
   <script type="module" src="js/chat.js"></script>
 </body>
