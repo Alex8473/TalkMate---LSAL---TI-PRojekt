@@ -1,7 +1,7 @@
-// Verbinde dein Frontend direkt mit Supabase
-import { createClient } from 'https://esm.sh/@supabase/supabase-js'
+// Verbindet dein Frontend direkt mit Supabase
+import { createClient } from 'https://esm.sh/@supabase/supabase-js' // Importiert die `createClient`-Funktion aus der offiziellen Supabase-Bibliothek. Diese Funktion ist notwendig, um eine Verbindung zur Supabase-Datenbank aufzubauen.
 
-const SUPABASE_URL = 'https://iogtomofmqatheuratev.supabase.co'
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlvZ3RvbW9mbXFhdGhldXJhdGV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjExNDMwODQsImV4cCI6MjA3NjcxOTA4NH0.f-aJLQWOcQ_sO0_vc3h8W4Xd3d8potCIFe_pumqM6tU'
+const SUPABASE_URL = 'https://iogtomofmqatheuratev.supabase.co' // Definiert die spezifische URL des Supabase-Projekts. Diese URL dient als Endpunkt, über den die Anwendung mit der Datenbank kommuniziert - sie musste persönlich erstellt werden
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlvZ3RvbW9mbXFhdGhldXJhdGV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjExNDMwODQsImV4cCI6MjA3NjcxOTA4NH0.f-aJLQWOcQ_sO0_vc3h8W4Xd3d8potCIFe_pumqM6tU' // Dies ist der öffentliche Schlüssel (anon key). Er wird verwendet, um anonyme oder nicht authentifizierte Anfragen an die Datenbank zu stellen, was für Operationen wie das Lesen öffentlicher Daten oder die Registrierung notwendig ist.
 
-export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
+export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY) // Erstellt die eigentliche Supabase-Client-Instanz, indem die URL und der Key übergeben werden. Das `export` sorgt dafür, dass dieser Client in allen anderen JavaScript-Dateien importiert und verwendet werden kann.
