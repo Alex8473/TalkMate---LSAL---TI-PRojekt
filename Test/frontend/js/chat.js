@@ -1,9 +1,8 @@
 import { supabase } from './supabaseClient.js'
 
-// --- 1. DOM-Elemente und User-Check ---
-
 // -Dieses Logiksegment prüft den Anmeldestatus und initialisiert die DOM-Elemente und Zustandsvariablen-
 
+// --- 1. DOM-Elemente und Initialisierung ---
 const currentUser = JSON.parse(localStorage.getItem('user')) // Liest die gespeicherten Benutzerdaten aus dem lokalen Speicher.
 if (!currentUser) {
   alert('Bitte zuerst einloggen!')
@@ -11,7 +10,7 @@ if (!currentUser) {
 }
 
 // Ansichten
-const contactListView = document.getElementById('contact-list-view') // Die Container für die Kontaktliste.
+const contactListView = document.getElementById('contact-list-view') // Der Container für die Kontaktliste.
 const chatView = document.getElementById('chat-view') // Der Container für den Einzelchat.
 
 // Listen-Ansicht
@@ -25,13 +24,13 @@ const sendBtn = document.getElementById('send-message')
 const backToListBtn = document.getElementById('back-to-list-button')
 const chatPartnerNameEl = document.getElementById('chat-partner-name') // Das Element, das den Namen des Chat-Partners anzeigt.
 
-// --- 2. Globale Variablen ---
+// Globale Variablen
 let receivers = {} // Speichert die Namen der Chat-Partner anhand ihrer ID (Format: { user_id: fullname }).
 let currentReceiverId = null // Speichert die ID des Users, mit dem aktuell gechattet wird.
 
-// --- 3. View-Wechsel ---
+// --- 2. View-Wechsel ---
 
-// -Dieses Logiksegment steuert das Umschalten zur Einzelchat-Ansicht und lädt die Nachrichten-
+// -Dieses Logiksegment steuert das Umschalten zur Einzelchat-Ansicht und bereitet das Laden der Nachrichten vor-
 
 function showChatView(userId, userName) {
   currentReceiverId = userId
@@ -53,34 +52,9 @@ function showListView() {
 backToListBtn.addEventListener('click', showListView) // Der "Zurück"-Button löst den Wechsel aus.
 showRequestsBtn.addEventListener('click', () => alert('Hier kommen später Chat-Anfragen hin.')) // Platzhalter-Funktion für den Anfragen-Button.
 
-// --- 4. Nachricht senden ---
+// --- 3. Echte Matches laden (Kontaktliste) ---
 
-// -Dieses Logiksegment speichert eine neue, gesendete Nachricht in der Datenbank-
-
-sendBtn.addEventListener('click', async () => {
-  const content = messageInput.value.trim()
-  if (!currentReceiverId || !content) return // Abbruch, wenn kein Text oder kein Empfänger vorhanden ist.
-
-  const { error } = await supabase
-    .from('messages')
-    .insert([
-      {
-        sender_id: currentUser.id,
-        receivers_id: currentReceiverId, // Die ID des Chat-Partners (Empfängers).
-        content // Der Text der Nachricht.
-      }
-    ]) // Fügt die Nachricht in die Datenbank ein.
-
-  if (error) {
-    console.error('Fehler beim Senden:', error)
-  } else {
-    messageInput.value = '' // Leert das Eingabefeld nach erfolgreichem Senden.
-  }
-})
-
-// --- 5. Echte Matches laden ---
-
-// -Dieses Logiksegment identifiziert alle gematchten Chat-Partner und baut die Kontaktliste in der UI auf-
+// -Dieses Logiksegment identifiziert alle gematchten Chat-Partner, lädt deren Profile und baut die Kontaktliste in der UI auf-
 
 async function loadMatches() {
   contactListContainer.innerHTML = '<p>Lade deine Chats...</p>'
@@ -139,7 +113,36 @@ async function loadMatches() {
   })
 }
 
-// --- 6. Nachrichten laden ---
+// - Info - -------------------------------------------------------------------
+
+// --- 4. Chat-Kernfunktionen (Senden, Laden, Realtime) ---
+
+// -Hinweis: Dieses Logiksegment enthält die Kernfunktionen zum Chatten. Die Funktionalität (Senden, Laden, Realtime) ist im Code angelegt, 
+// aber das Problem liegt möglicherweise an der Datenbankkonfiguration (z.B. RLS-Policies oder fehlende 'messages'-Tabelle) in Supabase. 
+// Ich vermute, dass das chatten daher nicht funktioniert und die Funktion daher nicht gegeben ist!
+
+// -Dieses Logiksegment speichert eine neue, gesendete Nachricht in der Datenbank-
+
+sendBtn.addEventListener('click', async () => {
+  const content = messageInput.value.trim()
+  if (!currentReceiverId || !content) return // Abbruch, wenn kein Text oder kein Empfänger vorhanden ist.
+
+  const { error } = await supabase
+    .from('messages')
+    .insert([
+      {
+        sender_id: currentUser.id,
+        receivers_id: currentReceiverId, // Die ID des Chat-Partners (Empfängers).
+        content // Der Text der Nachricht.
+      }
+    ]) // Fügt die Nachricht in die Datenbank ein.
+
+  if (error) {
+    console.error('Fehler beim Senden:', error)
+  } else {
+    messageInput.value = '' // Leert das Eingabefeld nach erfolgreichem Senden.
+  }
+})
 
 // -Dieses Logiksegment lädt die komplette Nachrichten-Historie für den geöffneten Chat-
 
@@ -178,10 +181,9 @@ async function loadMessages() {
   chatBox.scrollTop = chatBox.scrollHeight // Scrollt automatisch zur neuesten Nachricht.
 }
 
-// -Dieses Logiksegment implementiert die Realtime-Funktionalität für neue Nachrichten-
+// -Dieses Logiksegment implementiert die Realtime-Funktionalität für Live-Updates bei neuen Nachrichten-
 
-// Realtime-Listener 
-supabase
+const realtimeListener = supabase
   .channel('realtime-messages') // Abonniert den Realtime-Kanal.
   .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, payload => {
     const msg = payload.new // Die neu eingefügte Nachricht.
@@ -205,5 +207,5 @@ supabase
   })
   .subscribe() // Aktiviert den Listener.
 
-// Start 
+// --- 5. Start ---
 loadMatches() // Startet den Ladevorgang der Kontaktliste beim Initialisieren des Skripts.

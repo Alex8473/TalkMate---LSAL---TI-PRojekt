@@ -37,7 +37,7 @@ async function loadProfiles() {
       .eq('source_id', currentUser.id) // Filtert nach allen Matches, die der aktuelle User als Quelle bewertet hat.
 
     if (seenErr) {
-      // Wenn hier Permission denied oder RLS, stoppen und ausgeben
+      // Wenn hier Permission denied oder RLS, stoppen und ausgeben - (RLS-Ploicies - Fehler bei Supabase)
       return showError('Fehler beim Lesen bereits bewerteter Einträge (matches). Prüfe RLS/Policies.', seenErr)
     }
 
