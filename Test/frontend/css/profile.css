@@ -1,8 +1,6 @@
-
 .app-container {
-  padding-bottom: 15px;
+  padding-bottom: 15px; /* Sorgt für einen kleinen Sicherheitsabstand zum unteren Bildschirmrand */
 }
 form > button[type="submit"]:not(.update-button) {
-  display: none;
+  display: none; /* Versteckt alle Standard-Absendebuttons innerhalb von Formularen, außer jene mit der Klasse update-button */
 }
-

@@ -8,18 +8,18 @@
   font-size: 15px;
   font-weight: 400;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s ease; /* Weicher Übergang für Hover-Effekte */
   margin-top: 8px;
   text-align: center;
 }
 
 .settings-button:hover {
-  background: #f8f9f7;
+  background: #f8f9f7; /* Hellt Hintergrund beim Drüberfahren auf */
 }
 
 .settings-toggle-item {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* Schiebt Text nach links und Toggle nach rechts */
   align-items: center;
   padding: 12px;
   background: #f8f9f7;
@@ -35,17 +35,17 @@
 }
 
 .toggle-switch {
-  position: relative;
+  position: relative; /* Platzhalter für den eigentlichen Toggle-Mechanismus */
 }
 
 /* Roter Button für Abmelden */
 .danger-button {
-  background-color: #9d4e4e; 
+  background-color: #9d4e4e; /* Rote Signalfarbe warnt vor kritischer Aktion */
   margin-top: 3px; 
 }
 
 .danger-button:hover {
-  background-color: #834040;
+  background-color: #834040; /* Verdunkelt Rot beim Hover */
 }
 
 .delete-button {
@@ -72,7 +72,7 @@
 
 .language-selector {
     display: flex;
-    flex-wrap: wrap; /* Wichtig für kleinere Bildschirme */
+    flex-wrap: wrap; /* Erlaubt Umbruch der Sprach-Buttons bei Platzmangel */
     gap: 10px;
     margin-bottom: 20px;
 }
@@ -91,7 +91,7 @@
 /* So sieht der ausgewählte Sprach-Button aus */
 .language-option.selected {
     background-color: #ffffff;
-    border-color: #4a5442;
+    border-color: #4a5442; /* Dunkler Rahmen markiert aktive Auswahl */
     font-weight: 600;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
@@ -99,14 +99,14 @@
 /* Stile für die Hobby-Auswahl */
 .hobby-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr; /* Erstellt ein Raster mit zwei gleich breiten Spalten */
   gap: 15px;
   margin-bottom: 20px;
 }
 
 .hobby-item {
   display: flex;
-  align-items: center;
+  align-items: center; /* Zentriert Checkbox und Text vertikal */
   gap: 10px;
   padding: 12px 15px;
   background: #f8f9f7;
@@ -118,7 +118,7 @@
 
 .hobby-item:hover {
   background: white;
-  border-color: #7a8471;
+  border-color: #7a8471; /* Hebt Rand hervor beim Hover */
 }
 
 .hobby-item input[type="checkbox"] {
@@ -129,20 +129,20 @@
   background: white;
   cursor: pointer;
   position: relative;
-  appearance: none;
+  appearance: none; /* Entfernt das Standard-Design des Browsers für Checkboxen */
 }
 
 .hobby-item input[type="checkbox"]:checked {
-  background: #7a8471;
+  background: #7a8471; /* Füllt Box bei Auswahl */
   border-color: #7a8471;
 }
 
 .hobby-item input[type="checkbox"]:checked::after {
-  content: '✓';
+  content: '✓'; /* Fügt Häkchen-Symbol ein */
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); /* Zentriert das Häkchen exakt in der Box */
   color: white;
   font-size: 14px;
   font-weight: bold;
@@ -152,11 +152,11 @@
   font-size: 16px;
   color: #4a5442;
   cursor: pointer;
-  user-select: none;
+  user-select: none; /* Verhindert Textmarkierung beim Klicken */
 }
 
 .hobby-item input[type="checkbox"]:checked + label {
-  color: #7a8471;
+  color: #7a8471; /* Färbt Text ein wenn zugehörige Checkbox aktiv ist */
   font-weight: 600;
 }
 
@@ -165,7 +165,7 @@
     display: flex;
     justify-content: center; 
     align-items: center;
-    border-bottom: 1px solid #d4d0b9;
+    border-bottom: 1px solid #d4d0b9; /* Trennlinie unter der Überschrift */
     margin-bottom: 10px;
     position: relative; 
 }
@@ -181,7 +181,7 @@
 .register-button {
     width: 100%;
     padding: 12px;
-    background: #7a8471; 
+    background: #7a8471; /* Primäre Aktionsfarbe Grün */
     color: #ffffff; 
     border: none;
     border-radius: 20px;
@@ -194,5 +194,5 @@
 }
 
 .register-button:hover {
-    background: #4a5442; 
+    background: #4a5442; /* Dunklerer Farbton für Feedback */
 }
