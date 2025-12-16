@@ -1,12 +1,11 @@
-/* global.css */
-
-/* --- Reset & Body --- */
+/* Zurücksetzen aller Browser-Standardabstände */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* Body zentriert den Container vertikal und horizontal */
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   margin: 0;
@@ -17,7 +16,7 @@ body {
   background-color: #f0f0f0;
 }
 
-/* --- App-Layout --- */
+/* Hauptcontainer simuliert ein Handy-Display (375x667px) */
 .app-container {
   width: 375px;
   height: 667px;
@@ -28,11 +27,12 @@ body {
   overflow: hidden; 
   position: relative;
   box-sizing: border-box;
+  /* Padding unten für die Icon-Bar (90px) */
   padding: 20px 20px 90px 20px;
   overflow-y: auto; 
-
 }
 
+/* Seitentitel */
 h1 {
   text-align: center;
   color: #4a5442;
@@ -41,8 +41,7 @@ h1 {
   margin-top: 0;
 }
 
-/* --- Untere Navigationsleiste --- */
-
+/* Navigationsleiste am unteren Rand */
 .icon-bar {
    display: flex;
    justify-content: space-around;
@@ -72,7 +71,8 @@ h1 {
    height: 36px;
    cursor: pointer;
 }
-/* --- Geteilte Formularstile (Login, Register, Profil) --- */
+
+/* Wiederverwendbare Sektionen für Profile, Register, Settings */
 .profile-section,
 .hobby-section {
   margin-bottom: 25px;
@@ -85,11 +85,13 @@ h1 {
   font-weight: 600;
 }
 
+/* Wrapper für Eingabefelder */
 .searchbar {
   position: relative;
   margin-bottom: 15px;
 }
 
+/* Standard-Eingabefeld-Styling */
 .searchInput {
   width: 100%;
   padding: 15px 20px;
@@ -102,13 +104,14 @@ h1 {
   outline: none;
 }
 
+/* Fokus-Zustand hebt das Feld hervor */
 .searchInput:focus {
   outline: none;
   border-color: #7a8471;
   background: white;
 }
 
-/* Sprachauswahl */
+/* Sprachauswahl als horizontale Buttons */
 .language-selector {
   display: flex;
   gap: 10px;
@@ -127,6 +130,7 @@ h1 {
   font-size: 14px;
 }
 
+/* Hover und Selected State für Sprachoptionen */
 .language-option:hover,
 .language-option.selected {
   border-color: #7a8471;
@@ -134,7 +138,7 @@ h1 {
   font-weight: 600;
 }
 
-/* Hobby-Auswahl */
+/* 2-spaltige Grid-Layout für Hobbys */
 .hobby-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -142,6 +146,7 @@ h1 {
   margin-bottom: 20px;
 }
 
+/* Einzelnes Hobby-Item mit Checkbox und Label */
 .hobby-item {
   display: flex;
   align-items: center;
@@ -159,6 +164,7 @@ h1 {
   border-color: #7a8471;
 }
 
+/* Custom Checkbox-Styling (appearance: none entfernt Standard-Styling) */
 .hobby-item input[type="checkbox"] {
   width: 20px;
   height: 20px;
@@ -170,11 +176,13 @@ h1 {
   appearance: none;
 }
 
+/* Checked State färbt die Checkbox */
 .hobby-item input[type="checkbox"]:checked {
   background: #7a8471;
   border-color: #7a8471;
 }
 
+/* Häkchen wird als Content hinzugefügt */
 .hobby-item input[type="checkbox"]:checked::after {
   content: '✓';
   position: absolute;
@@ -193,12 +201,13 @@ h1 {
   user-select: none;
 }
 
+/* Label wird fett wenn Checkbox aktiv */
 .hobby-item input[type="checkbox"]:checked + label {
   color: #7a8471;
   font-weight: 600;
 }
 
-/* Geteilter Update/Submit Button */
+/* Primärer Button für Submit-Aktionen */
 .update-button {
   width: 100%;
   padding: 15px;
@@ -213,6 +222,7 @@ h1 {
   margin-top: 10px;
 }
 
+/* Hover-Effekt mit leichter Hebung */
 .update-button:hover {
   background: #6a7461;
   transform: translateY(-2px);

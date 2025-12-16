@@ -1,6 +1,4 @@
-/* login.css */
-
-/* Stile für die Umschalt-Buttons (Register/Back to Login) */
+/* Sekundärer Button-Style für Umschalt-Aktionen */
 .register-button {
   width: 100%;
   padding: 15px;
@@ -24,7 +22,7 @@
   margin-top: 20px;
 }
 
-
+/* Logo-Container am Ende der Seite */
 .logo-container {
   width: 100%;
   text-align: center;
@@ -42,3 +40,12 @@
   border: none;         
 }
 
+/* Reduziert Padding für mehr Platz */
+.app-container {
+  padding-bottom: 15px;
+}
+
+/* Versteckt Standard-Submit-Buttons wenn sie nicht update-button sind */
+form > button[type="submit"]:not(.update-button) {
+  display: none;
+}
